@@ -11,5 +11,6 @@
 
     <modules>
         <module>study-jdk1_8</module>
+        <module>study-alioss</module>
     </modules>
 </project>

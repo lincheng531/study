@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    alicloud:
+      access-key: LTAI4G4wwxvhZSjxLJbVgKvj
+      secret-key: 4mO4QjGTAGOtV5IOdT31gp4uQMI3TS
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+        bucket: kicp-demo
+
+server:
+  port: 30000
