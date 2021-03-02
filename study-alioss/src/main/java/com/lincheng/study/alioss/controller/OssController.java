@@ -6,6 +6,7 @@ import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectResult;
 import com.google.common.collect.Lists;
 import com.lincheng.study.common.utils.R;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class OssController {
     private String endpoint;
 
     @Value("${spring.cloud.alicloud.oss.bucket}")
-    private String bucket;
+    private String bucketName;
 
     @Value("${spring.cloud.alicloud.access-key}")
     private String accessKeyId;
@@ -66,7 +67,7 @@ public class OssController {
     }
 
 
-    private String getFilePath(String sourceFileName) {
+    private String getOssFileName(String sourceFileName) {
         LocalDateTime dt = LocalDateTime.now();
         return "images/" + dt.getYear()
                 + "/" + dt.getMonthValue() + "/"
@@ -86,7 +87,7 @@ public class OssController {
     public void exportOssFile(OutputStream os, String objectName) throws IOException {
         // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        OSSObject ossObject = ossClient.getObject(bucket, objectName);
+        OSSObject ossObject = ossClient.getObject(bucketName, objectName);
         // 读取文件内容。
         BufferedInputStream in = new BufferedInputStream(ossObject.getObjectContent());
         BufferedOutputStream out = new BufferedOutputStream(os);
@@ -111,7 +112,7 @@ public class OssController {
      * @param uploadFile
      * @return
      */
-    public R upload(MultipartFile uploadFile) {
+    public R upload(MultipartFile uploadFile) throws IOException {
         // 校验图片格式
         boolean isLegal = false;
         for (String type : imageTyep) {
@@ -126,20 +127,29 @@ public class OssController {
         }
         //文件新路径
         String fileName = uploadFile.getOriginalFilename();
-        String filePath = getFilePath(fileName);
+        String ossfileName = getOssFileName(fileName);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(uploadFile.getBytes());
+        DigestUtils.md5Hex(byteArrayInputStream);
         // 上传到阿里云
         try {
+            // 创建OSSClient实例。
+            //上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（ossfileName）。
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-            PutObjectResult putObjectResult = ossClient.putObject(bucket, filePath,  new ByteArrayInputStream(uploadFile.getBytes()));
+            PutObjectResult putObjectResult = ossClient.putObject(bucketName, ossfileName,  byteArrayInputStream);
+            ossClient.shutdown();
         } catch (Exception e) {
+
             e.printStackTrace();
             //上传失败
         }
+
+        // 关闭OSSClient。
+
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("status","done");
         hashMap.put("response","success");
         //this.aliyunConfig.getUrlPrefix() + filePath 文件路径需要保存到数据库
-        hashMap.put("filePath",filePath);
+        hashMap.put("ossfileName",ossfileName);
         return R.ok().put("data",hashMap);
     }
 
@@ -155,7 +165,7 @@ public class OssController {
     public R delete(String objectName) {
         // 根据BucketName,objectName删除文件
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        ossClient.deleteObject(bucket, objectName);
+        ossClient.deleteObject(bucketName, objectName);
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("status","removed");
         hashMap.put("response","success");

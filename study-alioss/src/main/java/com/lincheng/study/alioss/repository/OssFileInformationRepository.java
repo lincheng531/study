@@ -6,4 +6,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface OssFileInformationRepository extends PagingAndSortingRepository<OssFileInformation, Long> {
 
+    OssFileInformation findFirstByMd5Hex(String md5Hex);
+
 }

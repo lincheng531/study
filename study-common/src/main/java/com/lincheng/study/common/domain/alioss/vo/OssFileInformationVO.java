@@ -1,25 +1,24 @@
-package com.lincheng.study.alioss.entity;
-
-
+package com.lincheng.study.common.domain.alioss.vo;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author linc
+ */
 @Data
-@Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Table(name = "oss_file_information")
-public class OssFileInformation {
+@AllArgsConstructor
+@SuperBuilder
+public class OssFileInformationVO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    private static final long serialVersionUID = 3728716391005779976L;
+
     private Long id;
 
     private Integer fileType;
@@ -39,6 +38,4 @@ public class OssFileInformation {
     private Long operatorId;
 
     private String operatorName;
-
-
 }

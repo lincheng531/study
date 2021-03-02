@@ -13,16 +13,29 @@
     <description>公共依赖，bean,工具类</description>
 
     <dependencies>
-        <!--        服务注册/发现-->
+<!--
+
+        &lt;!&ndash;服务注册/发现&ndash;&gt;
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
-        <!--        配置中心来做配置管理-->
+        &lt;!&ndash;配置中心来做配置管理&ndash;&gt;
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+-->
+
+
+
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
+            <scope>provided</scope>
         </dependency>
 
         <!--json解析-->
