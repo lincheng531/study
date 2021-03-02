@@ -82,7 +82,7 @@ public class OssController {
     @ResponseBody
     public R ossDelete(@RequestParam("fileName") String fileName) throws Exception {
 
-
+        //删除文件
         ossFileInformationService.delete(fileName);
 
         HashMap<String,String> hashMap = new HashMap<>();
