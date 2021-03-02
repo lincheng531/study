@@ -3,21 +3,24 @@ package com.lincheng.study.alioss.service;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectResult;
 import com.lincheng.study.alioss.entity.OssFileInformation;
 import com.lincheng.study.alioss.repository.OssFileInformationRepository;
 import com.lincheng.study.common.domain.alioss.vo.OssFileInformationVO;
+import com.lincheng.study.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -52,7 +55,7 @@ public class OssFileInformationService {
      * @param fileType
      * @return
      */
-    public OssFileInformationVO ossDownload(MultipartFile uploadFile,Integer fileType) throws IOException {
+    public OssFileInformationVO upload(MultipartFile uploadFile,Integer fileType) throws IOException {
 
         OssFileInformationVO ossFileInformationVO = new OssFileInformationVO();
 
@@ -116,6 +119,65 @@ public class OssFileInformationService {
                 + "/" + dt.getMonthValue() + "/"
                 + dt.getDayOfMonth() + "/"
                 + UUID.randomUUID().toString() + "."
-                + StringUtils.substringAfterLast(sourceFileName, ".");
+                +  sourceFileName;
     }
+
+
+
+    /**
+     * @author: linCheng
+     * @description: 下载文件
+     * @date: 2021/3/2 15:23
+     * @param outputStream
+     * @param ossfileName
+     * @return
+     */
+    public BufferedInputStream download(String ossfileName) throws IOException {
+
+        BufferedInputStream bufferedInputStream = null;
+
+        try {
+            // 创建OSSClient实例。
+            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+            // 调用ossClient.getObject返回一个OSSObject实例，该实例包含文件内容及文件元信息。
+            OSSObject ossObject = ossClient.getObject(bucketName, ossfileName);
+            // 读取文件内容。
+            bufferedInputStream = new BufferedInputStream(ossObject.getObjectContent());
+            // 关闭OSSClient。
+            ossClient.shutdown();
+        }catch (Exception e) {
+            //上传失败
+            e.printStackTrace();
+        }
+        return bufferedInputStream;
+    }
+
+    /**
+     * @author: linCheng
+     * @description: 删除文件
+     * @date: 2021/2/26 17:18
+     * @param ossfileName
+     * @return
+     */
+    public void delete(String ossfileName) {
+        try {
+            // 根据BucketName,objectName删除文件
+            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+            // 删除文件。
+            ossClient.deleteObject(bucketName, ossfileName);
+            // 关闭OSSClient。
+            ossClient.shutdown();
+        }catch (Exception e) {
+            //上传失败
+            e.printStackTrace();
+        }
+
+        //删除文件信息
+        ossFileInformationRepository.deleteByOssFileName(ossfileName);
+
+    }
+
+
+
+
 }

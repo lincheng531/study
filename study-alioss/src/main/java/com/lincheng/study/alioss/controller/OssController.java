@@ -1,175 +1,94 @@
 package com.lincheng.study.alioss.controller;
 
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.PutObjectResult;
-import com.google.common.collect.Lists;
+import com.lincheng.study.alioss.Enum.FileTypeEnum;
+import com.lincheng.study.alioss.entity.OssFileInformation;
+import com.lincheng.study.alioss.repository.OssFileInformationRepository;
+import com.lincheng.study.alioss.service.OssFileInformationService;
+import com.lincheng.study.common.domain.alioss.vo.OssFileInformationVO;
 import com.lincheng.study.common.utils.R;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 public class OssController {
 
-    //@Autowired
-    //OSS ossClient;
+    @Resource
+    private OssFileInformationService ossFileInformationService;
 
-    @Value("${spring.cloud.alicloud.oss.endpoint}")
-    private String endpoint;
+    @Resource
+    private OssFileInformationRepository ossFileInformationRepository;
 
-    @Value("${spring.cloud.alicloud.oss.bucket}")
-    private String bucketName;
-
-    @Value("${spring.cloud.alicloud.access-key}")
-    private String accessKeyId;
-
-    @Value("${spring.cloud.alicloud.secret-key}")
-    private String accessKeySecret;
-
-    private static List<String> imageTyep= Lists.newArrayList("jpg", "jpeg", "gif", "png", "bmp");
 
     @RequestMapping("oss/upload")
     public R ossUpload(@RequestParam("file") MultipartFile file) throws Exception {
-        return this.upload(file);
+
+        // 校验图片格式
+        FileTypeEnum fileTypeEnum = Arrays.stream(FileTypeEnum.values())
+                .filter(typeEnum ->StringUtils.endsWithIgnoreCase(file.getOriginalFilename(),typeEnum.getName()))
+                .findFirst()
+                .orElse(null);
+
+        if (!Optional.ofNullable(fileTypeEnum).isPresent()){
+            return R.error("error");
+        }
+
+        OssFileInformationVO ossFileInformationVO = ossFileInformationService.upload(file, fileTypeEnum.getKey());
+
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status","");
+        hashMap.put("response","success");
+        hashMap.put("ossFileInformationVO",ossFileInformationVO);
+        return R.ok().put("data",hashMap);
+
     }
 
     @RequestMapping("oss/download")
-    public void ossDownload(@RequestParam("fileName") String fileName, HttpServletResponse response) throws IOException {
-        //通知浏览器以附件形式下载
-        //response.reset();// 清空输出流
-        //response.setContentType("application/ms-excel;charset=utf-8");
+    public void ossDownload(@RequestParam("ossFileName") String ossFileName, HttpServletResponse response) throws IOException {
 
-        String name = "测试名称.jpg";
-        response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String(name.getBytes("UTF-8"), "ISO-8859-1"));
-        this.exportOssFile(response.getOutputStream(),fileName);
+
+        OssFileInformation firstByOssFileName = ossFileInformationRepository.findFirstByOssFileName(ossFileName);
+        String fileName = firstByOssFileName.getFileName();
+
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1"));
+
+        BufferedInputStream bufferedInputStream = ossFileInformationService.download(ossFileName);
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(response.getOutputStream());
+        byte[] buffer = new byte[1024];
+        int lenght = 0;
+        while ((lenght = bufferedInputStream.read(buffer)) != -1) {
+            bufferedOutputStream.write(buffer, 0, lenght);
+        }
+        if (bufferedOutputStream != null) {
+            bufferedOutputStream.flush();
+            bufferedOutputStream.close();
+        }
+        if (bufferedInputStream != null) {
+            bufferedInputStream.close();
+        }
+
     }
 
     @RequestMapping("oss/delete")
     @ResponseBody
-    public R ossDelete(@RequestParam("fileName") String fileName)
-            throws Exception {
-        return this.delete(fileName);
-    }
+    public R ossDelete(@RequestParam("fileName") String fileName) throws Exception {
 
 
-    private String getOssFileName(String sourceFileName) {
-        LocalDateTime dt = LocalDateTime.now();
-        return "images/" + dt.getYear()
-                + "/" + dt.getMonthValue() + "/"
-                + dt.getDayOfMonth() + "/"
-                + UUID.randomUUID().toString() + "."
-                + StringUtils.substringAfterLast(sourceFileName, ".");
-    }
+        ossFileInformationService.delete(fileName);
 
-    /**
-     * @author: linCheng
-     * @description: 下载文件
-     * @date: 2021/2/26 17:14
-     * @param os
-     * @param objectName
-     * @return
-     */
-    public void exportOssFile(OutputStream os, String objectName) throws IOException {
-        // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        OSSObject ossObject = ossClient.getObject(bucketName, objectName);
-        // 读取文件内容。
-        BufferedInputStream in = new BufferedInputStream(ossObject.getObjectContent());
-        BufferedOutputStream out = new BufferedOutputStream(os);
-        byte[] buffer = new byte[1024];
-        int lenght = 0;
-        while ((lenght = in.read(buffer)) != -1) {
-            out.write(buffer, 0, lenght);
-        }
-        if (out != null) {
-            out.flush();
-            out.close();
-        }
-        if (in != null) {
-            in.close();
-        }
-    }
-
-    /**
-     * @author: linCheng
-     * @description: 文件上传
-     * @date: 2021/2/26 17:11
-     * @param uploadFile
-     * @return
-     */
-    public R upload(MultipartFile uploadFile) throws IOException {
-        // 校验图片格式
-        boolean isLegal = false;
-        for (String type : imageTyep) {
-            if (StringUtils.endsWithIgnoreCase(uploadFile.getOriginalFilename(), type)) {
-                isLegal = true;
-                break;
-            }
-        }
-        //封装Result对象，并且将文件的byte数组放置到result对象中
-        if (!isLegal) {
-            return R.error("error");
-        }
-        //文件新路径
-        String fileName = uploadFile.getOriginalFilename();
-        String ossfileName = getOssFileName(fileName);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(uploadFile.getBytes());
-        DigestUtils.md5Hex(byteArrayInputStream);
-        // 上传到阿里云
-        try {
-            // 创建OSSClient实例。
-            //上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（ossfileName）。
-            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-            PutObjectResult putObjectResult = ossClient.putObject(bucketName, ossfileName,  byteArrayInputStream);
-            ossClient.shutdown();
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            //上传失败
-        }
-
-        // 关闭OSSClient。
-
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("status","done");
-        hashMap.put("response","success");
-        //this.aliyunConfig.getUrlPrefix() + filePath 文件路径需要保存到数据库
-        hashMap.put("ossfileName",ossfileName);
-        return R.ok().put("data",hashMap);
-    }
-
-
-
-    /**
-     * @author: linCheng
-     * @description: 删除文件
-     * @date: 2021/2/26 17:18
-     * @param objectName
-     * @return
-     */
-    public R delete(String objectName) {
-        // 根据BucketName,objectName删除文件
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        ossClient.deleteObject(bucketName, objectName);
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("status","removed");
         hashMap.put("response","success");
-        hashMap.put("name",objectName);
+        hashMap.put("name",fileName);
         return R.ok().put("data",hashMap);
     }
 

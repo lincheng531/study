@@ -8,4 +8,7 @@ public interface OssFileInformationRepository extends PagingAndSortingRepository
 
     OssFileInformation findFirstByMd5Hex(String md5Hex);
 
+    OssFileInformation findFirstByOssFileName(String ossFileName);
+
+    void deleteByOssFileName(String ossFileName);
 }
