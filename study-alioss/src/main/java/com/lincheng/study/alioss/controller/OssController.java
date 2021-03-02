@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
@@ -54,28 +55,23 @@ public class OssController {
     }
 
     @RequestMapping("oss/download")
-    public void ossDownload(@RequestParam("ossFileName") String ossFileName, HttpServletResponse response) throws IOException {
+    public R ossDownload(@RequestParam("ossFileName") String ossFileName, HttpServletResponse response) throws IOException {
 
 
         OssFileInformation firstByOssFileName = ossFileInformationRepository.findFirstByOssFileName(ossFileName);
-        String fileName = firstByOssFileName.getFileName();
+        if (!Optional.ofNullable(firstByOssFileName).isPresent()){
+            return R.error("error");
+        }
 
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(firstByOssFileName.getFileName().getBytes("UTF-8"), "ISO-8859-1"));
 
-        BufferedInputStream bufferedInputStream = ossFileInformationService.download(ossFileName);
-        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(response.getOutputStream());
-        byte[] buffer = new byte[1024];
-        int lenght = 0;
-        while ((lenght = bufferedInputStream.read(buffer)) != -1) {
-            bufferedOutputStream.write(buffer, 0, lenght);
-        }
-        if (bufferedOutputStream != null) {
-            bufferedOutputStream.flush();
-            bufferedOutputStream.close();
-        }
-        if (bufferedInputStream != null) {
-            bufferedInputStream.close();
-        }
+        ossFileInformationService.download(ossFileName,response.getOutputStream());
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status","1");
+        hashMap.put("response","success");
+        hashMap.put("ossFileInformationVO",firstByOssFileName);
+        return R.ok().put("data",hashMap);
     }
 
     @RequestMapping("oss/delete")

@@ -17,10 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import javax.servlet.ServletOutputStream;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -130,24 +128,35 @@ public class OssFileInformationService {
      * @param ossfileName
      * @return
      */
-    public BufferedInputStream download(String ossfileName) throws IOException {
-
-        BufferedInputStream bufferedInputStream = null;
-
+    public void download(String ossfileName,ServletOutputStream outputStream) throws IOException {
         try {
             // 创建OSSClient实例。
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             // 调用ossClient.getObject返回一个OSSObject实例，该实例包含文件内容及文件元信息。
             OSSObject ossObject = ossClient.getObject(bucketName, ossfileName);
+
             // 读取文件内容。
-            bufferedInputStream = new BufferedInputStream(ossObject.getObjectContent());
-            // 关闭OSSClient。
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(ossObject.getObjectContent());
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+            byte[] buffer = new byte[1024];
+            int lenght = 0;
+            while ((lenght = bufferedInputStream.read(buffer)) != -1) {
+                bufferedOutputStream.write(buffer, 0, lenght);
+            }
+            if (bufferedOutputStream != null) {
+                bufferedOutputStream.flush();
+                bufferedOutputStream.close();
+            }
+            if (bufferedInputStream != null) {
+                bufferedInputStream.close();
+            }
+
+            // 关闭OSSCliuent。
             ossClient.shutdown();
         }catch (Exception e) {
             //上传失败
             e.printStackTrace();
         }
-        return bufferedInputStream;
     }
 
     /**

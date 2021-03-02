@@ -71,12 +71,19 @@ public class StudyAliossApplicationTests {
 		}else {
 			System.out.println(false);
 
-
 		}
-
-
-
 	}
+
+
+
+
+	@Test
+	public void test2(){
+		//ossFileInformationRepository.deleteByOssFileName("images/2021/3/2/03278069-a997-41b4-8e1a-6a72240a4e22.jpg");
+		//System.out.println(JSON.toJSONString(ossFileInformation));
+		ossFileInformationRepository.deleteById(13L);
+	}
+
 
 
 }
