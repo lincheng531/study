@@ -1,5 +1,6 @@
 package com.lincheng.study.alioss.controller;
 
+
 import com.lincheng.study.alioss.Enum.FileTypeEnum;
 import com.lincheng.study.alioss.entity.OssFileInformation;
 import com.lincheng.study.alioss.repository.OssFileInformationRepository;
@@ -45,7 +46,7 @@ public class OssController {
 
 
         HashMap<String,Object> hashMap = new HashMap<>();
-        hashMap.put("status","");
+        hashMap.put("status","1");
         hashMap.put("response","success");
         hashMap.put("ossFileInformationVO",ossFileInformationVO);
         return R.ok().put("data",hashMap);
@@ -75,7 +76,6 @@ public class OssController {
         if (bufferedInputStream != null) {
             bufferedInputStream.close();
         }
-
     }
 
     @RequestMapping("oss/delete")

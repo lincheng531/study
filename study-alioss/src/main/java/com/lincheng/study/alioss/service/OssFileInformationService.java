@@ -63,10 +63,8 @@ public class OssFileInformationService {
         String fileName = uploadFile.getOriginalFilename();
         //oss文件名称
         String ossfileName = getOssFileName(fileName);
-        //文件流
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(uploadFile.getBytes());
         //用于图片去重校验，准备文件空间使用
-        String md5Hex = DigestUtils.md5Hex(byteArrayInputStream);
+        String md5Hex = DigestUtils.md5Hex(new ByteArrayInputStream(uploadFile.getBytes()));
 
 
         //通过md5去查询，如果已经存在数据，不在重复保存，直接返回文件信息
@@ -82,7 +80,7 @@ public class OssFileInformationService {
             // 创建OSSClient实例
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             // 上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（ossfileName）
-            PutObjectResult putObjectResult = ossClient.putObject(bucketName, ossfileName,  byteArrayInputStream);
+            ossClient.putObject(bucketName, ossfileName,  new ByteArrayInputStream(uploadFile.getBytes()));
             // 关闭OSSClient。
             ossClient.shutdown();
         } catch (Exception e) {
@@ -118,8 +116,8 @@ public class OssFileInformationService {
         return "images/" + dt.getYear()
                 + "/" + dt.getMonthValue() + "/"
                 + dt.getDayOfMonth() + "/"
-                + UUID.randomUUID().toString() + "."
-                +  sourceFileName;
+                + UUID.randomUUID().toString() +
+                sourceFileName.substring(sourceFileName.indexOf("."));
     }
 
 
