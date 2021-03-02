@@ -6,6 +6,24 @@ spring:
       oss:
         endpoint: oss-cn-beijing.aliyuncs.com
         bucket: kicp-demo
+  datasource:
+    username: root
+    password: kicp
+    url: jdbc:mysql://192.168.26.200:3306/oss?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
 
+  jpa:
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+    database: mysql
+    show-sql: false
+    hibernate:
+      #关闭hibernate5 id生成规则新特性(步长等)
+      use-new-id-generator-mappings: false
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: none
 server:
   port: 30000
