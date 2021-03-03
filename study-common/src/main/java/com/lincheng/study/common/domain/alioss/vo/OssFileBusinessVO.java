@@ -8,26 +8,25 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author linc
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class OssFileInformationVO implements Serializable {
+public class OssFileBusinessVO implements Serializable {
 
-    private static final long serialVersionUID = 3728716391005779976L;
+    private static final long serialVersionUID = 5688317378214483353L;
+
+    private Long ossFileBusinessId;
 
     private Long ossFileInfoId;
 
-    private Integer fileType;
+    private String businessId;
 
-    private String ossFileName;
+    private Integer businessType;
 
-    private String fileName;
+    private Long userId;
 
-    private String md5Hex;
+    private Long robotId;
 
     private String remark;
 
@@ -38,4 +37,5 @@ public class OssFileInformationVO implements Serializable {
     private Long operatorId;
 
     private String operatorName;
+
 }

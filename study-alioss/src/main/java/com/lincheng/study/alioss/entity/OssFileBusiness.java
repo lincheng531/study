@@ -1,7 +1,6 @@
 package com.lincheng.study.alioss.entity;
 
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,20 +14,22 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "oss_file_info")
-public class OssFileInformation {
+@Table(name = "oss_file_business")
+public class OssFileBusiness {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ossFileBusinessId;
+
     private Long ossFileInfoId;
 
-    private Integer fileType;
+    private String businessId;
 
-    private String ossFileName;
+    private Integer businessType;
 
-    private String fileName;
+    private Long userId;
 
-    private String md5Hex;
+    private Long robotId;
 
     private String remark;
 
@@ -39,6 +40,5 @@ public class OssFileInformation {
     private Long operatorId;
 
     private String operatorName;
-
 
 }

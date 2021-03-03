@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
@@ -33,7 +32,7 @@ public class OssController {
     @RequestMapping("oss/upload")
     public R ossUpload(@RequestParam("file") MultipartFile file) throws Exception {
 
-        // 校验图片格式
+        //校验文件格式
         FileTypeEnum fileTypeEnum = Arrays.stream(FileTypeEnum.values())
                 .filter(typeEnum ->StringUtils.endsWithIgnoreCase(file.getOriginalFilename(),typeEnum.getName()))
                 .findFirst()

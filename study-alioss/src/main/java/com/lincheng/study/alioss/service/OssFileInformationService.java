@@ -21,6 +21,7 @@ import javax.servlet.ServletOutputStream;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -184,6 +185,28 @@ public class OssFileInformationService {
 
     }
 
+
+    public void delete(List<Long> ossFileBusinessIds) {
+
+        List<OssFileInformation> ossFileInformations = ossFileInformationRepository.findAllById(ossFileBusinessIds);
+
+        try {
+            // 根据BucketName,objectName删除文件
+            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+            ossFileInformations.forEach( ossFileInformation -> {
+                // 删除文件。
+                ossClient.deleteObject(bucketName, ossFileInformation.getOssFileName());
+            });
+            // 关闭OSSClient。
+            ossClient.shutdown();
+        }catch (Exception e) {
+            //上传失败
+            e.printStackTrace();
+        }
+
+        //删除文件信息
+        ossFileInformationRepository.deleteAll(ossFileInformations);
+    }
 
 
 
