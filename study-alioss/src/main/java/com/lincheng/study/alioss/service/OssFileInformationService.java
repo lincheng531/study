@@ -1,6 +1,7 @@
 package com.lincheng.study.alioss.service;
 
 
+import com.alibaba.fastjson.JSON;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.OSSObject;
@@ -79,7 +80,8 @@ public class OssFileInformationService {
             // 创建OSSClient实例
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             // 上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（ossfileName）
-            ossClient.putObject(bucketName, ossfileName,  new ByteArrayInputStream(uploadFile.getBytes()));
+            PutObjectResult putObjectResult = ossClient.putObject(bucketName, ossfileName, new ByteArrayInputStream(uploadFile.getBytes()));
+            System.out.println(JSON.toJSONString(putObjectResult));
             // 关闭OSSClient。
             ossClient.shutdown();
         } catch (Exception e) {
@@ -92,6 +94,8 @@ public class OssFileInformationService {
                 .ossFileName(ossfileName)
                 .fileName(fileName)
                 .md5Hex(md5Hex)
+                .url("https://" + bucketName + "." + endpoint + "/" + ossfileName)
+                .fileSize(uploadFile.getSize())
                 .addTime(new Date()).build();
 
         //保存文件信息

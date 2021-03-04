@@ -30,6 +30,10 @@ public class OssFileInformation {
 
     private String md5Hex;
 
+    private String url;
+
+    private Long fileSize;
+
     private String remark;
 
     private Date addTime;

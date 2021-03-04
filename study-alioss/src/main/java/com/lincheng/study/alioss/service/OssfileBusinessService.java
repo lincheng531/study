@@ -1,6 +1,7 @@
 package com.lincheng.study.alioss.service;
 
 
+import com.google.common.collect.Lists;
 import com.lincheng.study.alioss.entity.OssFileBusiness;
 import com.lincheng.study.alioss.repository.OssFileBusinessRepository;
 import com.lincheng.study.common.domain.alioss.vo.OssFileBusinessVO;
@@ -30,7 +31,7 @@ public class OssfileBusinessService {
         ossFileBusinessVOList.forEach(ossFileBusinessVO -> {
             OssFileBusiness ossFileBusiness = new OssFileBusiness();
             ossFileBusinessVO.setBusinessType(1);
-            BeanUtils.copyProperties(ossFileBusiness,ossFileBusinessVO);
+            BeanUtils.copyProperties(ossFileBusinessVO,ossFileBusiness);
             ossFileBusinessList.add(ossFileBusiness);
         });
 
@@ -43,7 +44,7 @@ public class OssfileBusinessService {
         List<OssFileBusiness> ossFileBusinessList = ossFileBusinessRepository.findAllByOssFileBusinessIdIn(ossFileBusinessIdList);
 
 
-        List<Long> ossFileInfoIds = new ArrayList<>();
+        List<Long> ossFileInfoIds =  Lists.newArrayList();
         ossFileBusinessList.forEach(ossFileBusiness -> ossFileInfoIds.add(ossFileBusiness.getOssFileInfoId()));
 
         //删除文件信息表
