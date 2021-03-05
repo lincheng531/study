@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -44,16 +45,20 @@ public class StudyAliossApplicationTests {
 
 	@Test
 	public void test1(){
-		String type = "png";
+		String type = "png2222";
 
+		//校验文件格式
 		FileTypeEnum fileTypeEnum = Arrays.stream(FileTypeEnum.values())
-				.filter(alarmGrade -> alarmGrade.getName().equals(type))
+				.filter(typeEnum -> StringUtils.endsWithIgnoreCase(type,typeEnum.getName()))
 				.findFirst()
 				.orElse(null);
-		if (fileTypeEnum!=null) {
 
-		}
+		 Optional.ofNullable(fileTypeEnum).ifPresent(e -> {
+			 System.out.println("哈哈哈");
+		 });
 
+		Optional<String> stringOptional = Optional.of("zhangsan");
+		stringOptional.ifPresent(e -> System.out.println("我被处理了。。。"+e));
 
 		boolean present = Arrays.stream(FileTypeEnum.values()).anyMatch(alarmGrade -> alarmGrade.getName().equals(type));
 
