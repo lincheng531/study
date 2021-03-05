@@ -27,3 +27,23 @@ spring:
       ddl-auto: none
 server:
   port: 30000
+
+
+file:
+  manage:
+    #阿里
+    #access-key: LTAI4G4wwxvhZSjxLJbVgKvj
+    #secret-key: 4mO4QjGTAGOtV5IOdT31gp4uQMI3TS
+    #endpoint: oss-cn-beijing.aliyuncs.com
+    #bucketName: kicp-demo
+    #华为
+    access-key: PR3EYGZCAQ3N2N2ESDCC
+    secret-key: LmLOk8wYXUJcKVaCp6oOGn5gYie6r2Oc3qBBaLTX
+    endpoint: obs.cn-south-1.myhuaweicloud.com
+    bucketName: kicp-demo
+  source: #ali
+          huawei
+
+
+
+

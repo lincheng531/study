@@ -10,12 +10,14 @@ import com.lincheng.study.alioss.entity.OssFileInformation;
 import com.lincheng.study.alioss.repository.OssFileInformationRepository;
 import com.lincheng.study.common.domain.alioss.vo.OssFileInformationVO;
 import com.lincheng.study.common.utils.R;
+import com.obs.services.ObsClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import sun.util.resources.cldr.nyn.CalendarData_nyn_UG;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -29,7 +31,8 @@ import java.util.UUID;
 @Slf4j
 public class OssFileInformationService {
 
-    @Value("${spring.cloud.alicloud.oss.endpoint}")
+
+/* @Value("${spring.cloud.alicloud.oss.endpoint}")
     private String endpoint;
 
     @Value("${spring.cloud.alicloud.oss.bucketName}")
@@ -39,7 +42,26 @@ public class OssFileInformationService {
     private String accessKeyId;
 
     @Value("${spring.cloud.alicloud.secret-key}")
+    private String accessKeySecret;*/
+
+
+
+
+
+    @Value("${file.manage.endpoint}")
+    private String endpoint;
+
+    @Value("${file.manage.bucketName}")
+    private String bucketName;
+
+    @Value("${file.manage.access-key}")
+    private String accessKeyId;
+
+    @Value("${file.manage.secret-key}")
     private String accessKeySecret;
+
+    @Value("${file.source}")
+    private String source;
 
 
     @Resource
@@ -74,16 +96,29 @@ public class OssFileInformationService {
             return ossFileInformationVO;
         }
 
-
+        String objectUrl = null;
         // 上传到阿里云
         try {
-            // 创建OSSClient实例
-            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-            // 上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（ossfileName）
-            PutObjectResult putObjectResult = ossClient.putObject(bucketName, ossfileName, new ByteArrayInputStream(uploadFile.getBytes()));
-            System.out.println(JSON.toJSONString(putObjectResult));
-            // 关闭OSSClient。
-            ossClient.shutdown();
+            if ("huawei".equals(source)){
+                // 创建OBSClient实例
+                ObsClient obsClient = new ObsClient(accessKeyId, accessKeySecret, endpoint);
+                // 上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（ossfileName）
+                com.obs.services.model.PutObjectResult putObjectResult = obsClient.putObject(bucketName, ossfileName, new ByteArrayInputStream(uploadFile.getBytes()));
+                //图片地址
+                objectUrl = putObjectResult.getObjectUrl();
+                obsClient.close();
+            }else {
+                // 创建OSSClient实例
+                OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+                // 上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（ossfileName）
+                PutObjectResult putObjectResult = ossClient.putObject(bucketName, ossfileName, new ByteArrayInputStream(uploadFile.getBytes()));
+                objectUrl = "https://" + bucketName + "." + endpoint + "/" + ossfileName;
+                System.out.println(JSON.toJSONString(putObjectResult));
+                // 关闭OSSClient。
+                ossClient.shutdown();
+            }
+
+
         } catch (Exception e) {
             //上传失败
             e.printStackTrace();
@@ -94,7 +129,7 @@ public class OssFileInformationService {
                 .ossFileName(ossfileName)
                 .fileName(fileName)
                 .md5Hex(md5Hex)
-                .url("https://" + bucketName + "." + endpoint + "/" + ossfileName)
+                .url(objectUrl)
                 .fileSize(uploadFile.getSize())
                 .addTime(new Date()).build();
 
@@ -105,6 +140,11 @@ public class OssFileInformationService {
 
         return ossFileInformationVO;
     }
+
+
+
+
+
 
 
     /**
@@ -211,6 +251,11 @@ public class OssFileInformationService {
         //删除文件信息
         ossFileInformationRepository.deleteAll(ossFileInformations);
     }
+
+
+
+
+
 
 
 
