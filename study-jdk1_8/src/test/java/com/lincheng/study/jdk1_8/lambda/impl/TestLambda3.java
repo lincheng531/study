@@ -1,7 +1,5 @@
 package com.lincheng.study.jdk1_8.lambda.impl;
 
-import com.lincheng.study.jdk1_8.lambda.MyFun3;
-import com.sun.xml.internal.fastinfoset.tools.FI_DOM_Or_XML_DOM_SAX_SAXEvent;
 import org.junit.Test;
 
 import java.util.ArrayList;
