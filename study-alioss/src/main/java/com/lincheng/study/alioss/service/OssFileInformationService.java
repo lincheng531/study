@@ -97,9 +97,10 @@ public class OssFileInformationService {
         }
 
         String objectUrl = null;
-        // 上传到阿里云
+
         try {
             if ("huawei".equals(source)){
+                //华为云
                 // 创建OBSClient实例
                 ObsClient obsClient = new ObsClient(accessKeyId, accessKeySecret, endpoint);
                 // 上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（ossfileName）
@@ -108,6 +109,7 @@ public class OssFileInformationService {
                 objectUrl = putObjectResult.getObjectUrl();
                 obsClient.close();
             }else {
+                // 上传到阿里云
                 // 创建OSSClient实例
                 OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
                 // 上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（ossfileName）
@@ -136,7 +138,7 @@ public class OssFileInformationService {
         //保存文件信息
         ossFileInformationRepository.save(ossFileInformation);
 
-        BeanUtils.copyProperties(ossFileInformation,ossFileInformationVO);
+        BeanUtils.copyProperties(ossFileInformationVO,ossFileInformation);
 
         return ossFileInformationVO;
     }
