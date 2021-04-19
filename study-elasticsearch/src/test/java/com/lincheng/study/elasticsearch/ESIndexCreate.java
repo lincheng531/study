@@ -291,6 +291,123 @@ public class ESIndexCreate {
 
 
 
+    @Test
+    public void testESDocQueryByCondition() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient esClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
 
+        //配置索引
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices("user");
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        // 查询所有数据
+        sourceBuilder.query(QueryBuilders.termQuery("name","zhangsan"));
+
+
+        searchRequest.source(sourceBuilder);
+        //客户端发送请求，获取响应对象
+        SearchResponse searchResponse = esClient.search(searchRequest, RequestOptions.DEFAULT);
+
+        // 查询匹配
+        SearchHits hits = searchResponse.getHits();
+        System.out.println("took:" + searchResponse.getTook());
+        System.out.println("timeout:" + searchResponse.isTimedOut());
+        System.out.println("total:" + hits.getTotalHits());
+        System.out.println("MaxScore:" + hits.getMaxScore());
+        System.out.println("hits========>>");
+        for (SearchHit hit : hits) {
+            //输出每条查询的结果信息
+            System.out.println(hit.getSourceAsString());
+        }
+        System.out.println("<<========");
+        //关闭es客户端
+        esClient.close();
+    }
+
+
+
+    @Test
+    public void testESDocQueryByPage() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient esClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //配置索引
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices("user");
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        // 查询所有数据
+        sourceBuilder.query(QueryBuilders.matchAllQuery());
+        // 当前页其实索引(第一条数据的顺序号)，from
+        sourceBuilder.from(0);
+        // 每页显示多少条 size
+        sourceBuilder.size(2);
+
+
+        searchRequest.source(sourceBuilder);
+        //客户端发送请求，获取响应对象
+        SearchResponse searchResponse = esClient.search(searchRequest, RequestOptions.DEFAULT);
+
+        // 查询匹配
+        SearchHits hits = searchResponse.getHits();
+        System.out.println("took:" + searchResponse.getTook());
+        System.out.println("timeout:" + searchResponse.isTimedOut());
+        System.out.println("total:" + hits.getTotalHits());
+        System.out.println("MaxScore:" + hits.getMaxScore());
+        System.out.println("hits========>>");
+        for (SearchHit hit : hits) {
+            //输出每条查询的结果信息
+            System.out.println(hit.getSourceAsString());
+        }
+        System.out.println("<<========");
+        //关闭es客户端
+        esClient.close();
+    }
+
+
+    @Test
+    public void testESDocQueryByPage() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient esClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //配置索引
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices("user");
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        // 查询所有数据
+        sourceBuilder.query(QueryBuilders.matchAllQuery());
+        // 当前页其实索引(第一条数据的顺序号)，from
+        sourceBuilder.from(0);
+        // 每页显示多少条 size
+        sourceBuilder.size(2);
+
+
+        searchRequest.source(sourceBuilder);
+        //客户端发送请求，获取响应对象
+        SearchResponse searchResponse = esClient.search(searchRequest, RequestOptions.DEFAULT);
+
+        // 查询匹配
+        SearchHits hits = searchResponse.getHits();
+        System.out.println("took:" + searchResponse.getTook());
+        System.out.println("timeout:" + searchResponse.isTimedOut());
+        System.out.println("total:" + hits.getTotalHits());
+        System.out.println("MaxScore:" + hits.getMaxScore());
+        System.out.println("hits========>>");
+        for (SearchHit hit : hits) {
+            //输出每条查询的结果信息
+            System.out.println(hit.getSourceAsString());
+        }
+        System.out.println("<<========");
+        //关闭es客户端
+        esClient.close();
+    }
 
 }
