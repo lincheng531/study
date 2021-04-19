@@ -53,7 +53,7 @@ import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StudyElasticsearchApplication.class)
-public class ESIndexCreate {
+public class ESTest {
 
 
     @Test
