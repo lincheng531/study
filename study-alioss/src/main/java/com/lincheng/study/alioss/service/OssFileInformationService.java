@@ -181,7 +181,6 @@ public class OssFileInformationService {
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             // 调用ossClient.getObject返回一个OSSObject实例，该实例包含文件内容及文件元信息。
             OSSObject ossObject = ossClient.getObject(bucketName, ossfileName);
-
             // 读取文件内容。
             BufferedInputStream bufferedInputStream = new BufferedInputStream(ossObject.getObjectContent());
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
