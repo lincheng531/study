@@ -24,6 +24,7 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
+import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -496,6 +497,44 @@ public class ESIndexCreate {
         esClient.close();
     }
 
+
+
+    @Test
+    public void testESDocQueryByFuzzy() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient esClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //配置索引
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices("user");
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        //fuzziness(Fuzziness.ONE)) 的意思为，字符差一个可以查询出来。
+        //fuzziness(Fuzziness.TWO)) 的意思为，字符差两个可以查询出来。
+        // zhangsan1，zhangsan2，zhangsan33 用ONE 只能查询出zhangsan1，zhangsan2 ， 而TWO 可以查询出zhangsan1，zhangsan2，zhangsan33
+        sourceBuilder.query(QueryBuilders.fuzzyQuery("name","zhangsan").fuzziness(Fuzziness.ONE));
+
+        searchRequest.source(sourceBuilder);
+        //客户端发送请求，获取响应对象
+        SearchResponse searchResponse = esClient.search(searchRequest, RequestOptions.DEFAULT);
+
+        // 查询匹配
+        SearchHits hits = searchResponse.getHits();
+        System.out.println("took:" + searchResponse.getTook());
+        System.out.println("timeout:" + searchResponse.isTimedOut());
+        System.out.println("total:" + hits.getTotalHits());
+        System.out.println("MaxScore:" + hits.getMaxScore());
+        System.out.println("hits========>>");
+        for (SearchHit hit : hits) {
+            //输出每条查询的结果信息
+            System.out.println(hit.getSourceAsString());
+        }
+        System.out.println("<<========");
+        //关闭es客户端
+        esClient.close();
+    }
 
 
     @Test
