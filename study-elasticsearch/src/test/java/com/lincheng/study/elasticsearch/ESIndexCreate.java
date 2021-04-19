@@ -29,6 +29,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -371,7 +372,7 @@ public class ESIndexCreate {
 
 
     @Test
-    public void testESDocQueryByPage() throws IOException {
+    public void testESDocQueryBySort() throws IOException {
         //创建ES客户端
         RestHighLevelClient esClient = new RestHighLevelClient(
                 RestClient.builder(new HttpHost("localhost",9200,"http"))
@@ -384,10 +385,8 @@ public class ESIndexCreate {
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         // 查询所有数据
         sourceBuilder.query(QueryBuilders.matchAllQuery());
-        // 当前页其实索引(第一条数据的顺序号)，from
-        sourceBuilder.from(0);
-        // 每页显示多少条 size
-        sourceBuilder.size(2);
+        // 排序
+        sourceBuilder.sort("age", SortOrder.ASC);
 
 
         searchRequest.source(sourceBuilder);
