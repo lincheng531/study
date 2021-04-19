@@ -12,6 +12,6 @@
     <modules>
         <module>study-jdk1_8</module>
         <module>study-alioss</module>
-        <module>study-huaweiobs</module>
+        <module>study-elasticsearch</module>
     </modules>
 </project>
