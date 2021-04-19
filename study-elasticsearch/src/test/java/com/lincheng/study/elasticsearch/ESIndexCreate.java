@@ -12,6 +12,8 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -23,6 +25,10 @@ import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -245,5 +251,46 @@ public class ESIndexCreate {
         //关闭es客户端
         esClient.close();
     }
+
+
+    @Test
+    public void testESDocQuery() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient esClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //配置索引
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices("user");
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        // 查询所有数据
+        sourceBuilder.query(QueryBuilders.matchAllQuery());
+        searchRequest.source(sourceBuilder);
+
+
+        //客户端发送请求，获取响应对象
+        SearchResponse searchResponse = esClient.search(searchRequest, RequestOptions.DEFAULT);
+
+        // 查询匹配
+        SearchHits hits = searchResponse.getHits();
+        System.out.println("took:" + searchResponse.getTook());
+        System.out.println("timeout:" + searchResponse.isTimedOut());
+        System.out.println("total:" + hits.getTotalHits());
+        System.out.println("MaxScore:" + hits.getMaxScore());
+        System.out.println("hits========>>");
+        for (SearchHit hit : hits) {
+        //输出每条查询的结果信息
+            System.out.println(hit.getSourceAsString());
+        }
+        System.out.println("<<========");
+        //关闭es客户端
+        esClient.close();
+    }
+
+
+
+
 
 }
