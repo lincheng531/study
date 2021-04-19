@@ -34,6 +34,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.aggregations.metrics.MaxAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -666,6 +667,39 @@ public class ESIndexCreate {
             System.out.println(hit.getSourceAsString());
         }
         System.out.println("<<========");
+        //关闭es客户端
+        esClient.close();
+    }
+
+
+    @Test
+    public void testESDocQueryByGroup() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient esClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //配置索引
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices("user");
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+
+        TermsAggregationBuilder termsAggregationBuilder = AggregationBuilders.terms("age_groupby").field("age");
+        sourceBuilder.aggregation(termsAggregationBuilder);
+
+        searchRequest.source(sourceBuilder);
+
+
+        //客户端发送请求，获取响应对象
+        SearchResponse searchResponse = esClient.search(searchRequest, RequestOptions.DEFAULT);
+
+        // 查询匹配
+        //4.打印响应结果
+        SearchHits hits = searchResponse.getHits();
+        System.out.println(hits);
+        System.out.println(searchResponse);
+
         //关闭es客户端
         esClient.close();
     }
