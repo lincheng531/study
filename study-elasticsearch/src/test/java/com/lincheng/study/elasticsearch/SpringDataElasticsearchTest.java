@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.lincheng.study.elasticsearch.entity.Product;
 import com.lincheng.study.elasticsearch.repository.PorductRepository;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,8 +119,34 @@ public class SpringDataElasticsearchTest {
         PageRequest pageRequest = PageRequest.of(currentPage,pageSize,sort);
         //分页查询
         Page<Product> productPage = porductRepository.findAll(pageRequest);
-        for (Product Product : productPage.getContent()) {
-            System.out.println(Product);
-        }
+        System.out.println(JSON.toJSONString(productPage));
+    }
+
+
+    /**
+     * term 查询
+     * search(termQueryBuilder) 调用搜索方法，参数查询构建器对象
+     */
+    @Test
+    public void termQuery(){
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("title", " 小米");
+        Iterable<Product> products = porductRepository.search(termQueryBuilder);
+        ArrayList<Product> productArrayList = Lists.newArrayList(products);
+        System.out.println(JSON.toJSONString(productArrayList));
+    }
+
+    /**
+     * term 查询加分页
+     */
+    @Test
+    public void termQueryByPage(){
+        int currentPage= 0 ;
+        int pageSize = 5;
+        //设置查询分页
+        PageRequest pageRequest = PageRequest.of(currentPage, pageSize);
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("title", " 小米");
+        Iterable<Product> products = porductRepository.search(termQueryBuilder,pageRequest);
+        ArrayList<Product> productArrayList = Lists.newArrayList(products);
+        System.out.println(JSON.toJSONString(productArrayList));
     }
 }
