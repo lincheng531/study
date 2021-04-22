@@ -8,6 +8,8 @@ public class Employee {
 
     private Double salary;
 
+    private Integer status;
+
     public Employee() {
         super();
     }
@@ -26,6 +28,13 @@ public class Employee {
         this.name = name;
         this.age = age;
         this.salary = salary;
+    }
+
+    public Employee(String name, Integer age, Double salary, Integer status) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.status = status;
     }
 
     public String getName() {
@@ -52,12 +61,21 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
                 ", salary=" + salary +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
