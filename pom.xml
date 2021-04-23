@@ -13,5 +13,7 @@
         <module>study-jdk1_8</module>
         <module>study-alioss</module>
         <module>study-elasticsearch</module>
+        <module>study-rocketmq</module>
+        <module>study-rocketmq-product</module>
     </modules>
 </project>
