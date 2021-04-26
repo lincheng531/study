@@ -1,4 +1,4 @@
-package com.lincheng.study.rocketmq;
+package com.lincheng.study.rocketmqproduct;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
