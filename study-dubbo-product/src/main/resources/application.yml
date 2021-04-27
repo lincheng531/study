@@ -1,0 +1,25 @@
+server:
+  port: 9001
+
+
+
+spring:
+  application:
+    name: study-dubbo-product
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+
+
+dubbo:
+  monitor:
+    protocol: registry
+  registry:
+    address: spring-cloud://localhost
+  protocol:
+    name: dubbo
+    port: 20881
+  #cloud:
+    #subscribed-services: "study-dubbo-consumer"
+
