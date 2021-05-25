@@ -45,7 +45,10 @@ public class TestStream {
     @Test
     public void testFilter(){
         List<User> users = userList.stream().filter(user -> user.getAge() > 30).collect(Collectors.toList());
-        System.out.println(JSON.toJSONString(users));
+
+        List<User> collect = userList.stream().filter(user -> user.getAge() != 11).collect(Collectors.toList());
+
+        System.out.println(JSON.toJSONString(collect));
     }
 
 
@@ -282,6 +285,12 @@ public class TestStream {
                 .limit(32)
                 .forEach(System.out::println);
 
+    }
+
+    public static void main(String[] args) {
+        String a = "1";
+        boolean present = Optional.ofNullable(a).isPresent();
+        System.out.println(present);
     }
 
 

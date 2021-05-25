@@ -14,7 +14,6 @@
 
 
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>study-common</artifactId>
     <description>公共依赖，bean,工具类</description>
 
