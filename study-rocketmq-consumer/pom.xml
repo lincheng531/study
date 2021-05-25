@@ -6,29 +6,21 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.5</version>
-        <relativePath/>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.lincheng.study</groupId>
-    <artifactId>study-rocketmq-product</artifactId>
+    <groupId>com.lincheng.study.rocketmqconsumer</groupId>
+    <artifactId>study-rocketmq-consumer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>study-rocketmq-product</name>
-    <description>Demo project for Spring Boot</description>
+    <name>study-rocketmq-consumer</name>
+    <description>mq-consumer</description>
     <properties>
         <java.version>1.8</java.version>
         <spring.cloud.alibaba.version>2.2.5.RELEASE</spring.cloud.alibaba.version>
     </properties>
     <dependencies>
-
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
-            <version>${spring.cloud.alibaba.version}</version>
-        </dependency>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>
