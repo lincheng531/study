@@ -18,11 +18,7 @@ public class MqListener {
 
     @StreamListener("erbadagang-input")
     public void onMessage(@Payload MessageVO message) {
-        logger.info("[onMessage][线程编号:{} 消息内容：{}]", Thread.currentThread().getId(), message);
-    }
-
-    @StreamListener("trek-input")
-    public void onTrekMessage(@Payload MessageVO message) {
+        System.out.println("哈哈哈");
         logger.info("[onMessage][线程编号:{} 消息内容：{}]", Thread.currentThread().getId(), message);
     }
 }

@@ -11,9 +11,5 @@ public interface Source {
 
     @Input("erbadagang-input")
     SubscribableChannel erbadagangInput();
-
-    @Input("trek-input")
-    SubscribableChannel trekInput();
-
 }
 

@@ -13,11 +13,6 @@ spring:
           destination: ERBADAGANG-TOPIC-01 # 目的地。这里使用 RocketMQ Topic
           content-type: application/json # 内容格式。这里使用 JSON
           group: erbadagang-consumer-group-ERBADAGANG-TOPIC-01 # 消费者分组,命名规则：组名+topic名
-
-        trek-input:
-          destination: TREK-TOPIC-01 # 目的地。这里使用 RocketMQ Topic
-          content-type: application/json # 内容格式。这里使用 JSON
-          group: trek-consumer-group-TREK-TOPIC-01 # 消费者分组,命名规则：组名+topic名
       # Spring Cloud Stream RocketMQ 配置项
       rocketmq:
         # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类

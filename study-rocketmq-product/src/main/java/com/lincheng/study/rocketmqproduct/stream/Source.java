@@ -19,7 +19,5 @@ public interface Source {
     @Output("erbadagang-output")
     MessageChannel erbadagangOutput();
 
-    @Output("trek-output")
-    MessageChannel trekOutput();
 
 }
