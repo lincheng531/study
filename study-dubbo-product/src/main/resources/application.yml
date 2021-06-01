@@ -13,13 +13,16 @@ spring:
 
 
 dubbo:
+  scan:
+    base-packages: com.lincheng.study.dubbo.service.impl
+  application:
+    name: ${spring.application.name}
   monitor:
     protocol: registry
   registry:
-    address: spring-cloud://localhost
+    address: nacos://127.0.0.1:8848
   protocol:
     name: dubbo
     port: 20881
-  #cloud:
-    #subscribed-services: "study-dubbo-consumer"
+
 

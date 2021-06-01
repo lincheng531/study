@@ -10,11 +10,14 @@ spring:
         server-addr: http://localhost:8848
 
 dubbo:
+  application:
+    name: ${spring.application.name}
   registry:
-    address: spring-cloud://localhost
+    address: nacos://127.0.0.1:8848
   protocol:
     name: dubbo
     port: 20880
   cloud:
     #订阅提供者的服务
     subscribed-services: study-dubbo-product
+
