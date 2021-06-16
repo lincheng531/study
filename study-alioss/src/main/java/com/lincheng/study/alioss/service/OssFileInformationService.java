@@ -9,7 +9,6 @@ import com.aliyun.oss.model.PutObjectResult;
 import com.lincheng.study.alioss.entity.OssFileInformation;
 import com.lincheng.study.alioss.repository.OssFileInformationRepository;
 import com.lincheng.study.common.domain.alioss.vo.OssFileInformationVO;
-import com.lincheng.study.common.utils.R;
 import com.obs.services.ObsClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -17,7 +16,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import sun.util.resources.cldr.nyn.CalendarData_nyn_UG;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -30,23 +28,6 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class OssFileInformationService {
-
-
-/* @Value("${spring.cloud.alicloud.oss.endpoint}")
-    private String endpoint;
-
-    @Value("${spring.cloud.alicloud.oss.bucketName}")
-    private String bucketName;
-
-    @Value("${spring.cloud.alicloud.access-key}")
-    private String accessKeyId;
-
-    @Value("${spring.cloud.alicloud.secret-key}")
-    private String accessKeySecret;*/
-
-
-
-
 
     @Value("${file.manage.endpoint}")
     private String endpoint;

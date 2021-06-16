@@ -16,5 +16,8 @@
         <module>study-rocketmq</module>
         <module>study-rocketmq-product</module>
         <module>study-rocketmq-consumer</module>
+        <module>study-common</module>
+        <module>study-dubbo-consumer</module>
+        <module>study-dubbo-product</module>
     </modules>
 </project>
