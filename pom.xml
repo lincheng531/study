@@ -19,5 +19,6 @@
         <module>study-common</module>
         <module>study-dubbo-consumer</module>
         <module>study-dubbo-product</module>
+        <module>study-basejava</module>
     </modules>
 </project>
