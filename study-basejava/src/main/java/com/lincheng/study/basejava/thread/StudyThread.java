@@ -41,6 +41,20 @@ public class StudyThread {
          *
          * 当前主方法为主线程，而cal.start()为子线程。
          *
+         *
+         * 原码解读：
+         *       (1)
+         *       public synchronized void start() {
+         *           start0();
+         *       }
+         *       (2)
+         *       //start0()是本地方法，由JVM调用，底层由c/c++实现
+         *       private native void start0();
+         *
+         *      总结start调用了start0方法后，该线程并不一定会马上执行，只是将线程变成了可以运行的状态，具体什么时候执行，取决于CPU，由CPU统一调度
+         *
+         *
+         *
          */
         cal cal = new cal();
         //如果直接调用cal.run(),不会启动子线程（可以理解为，run()就是一个普通的方法），这样就会先执行完run()方法，才会执行下面的方法
