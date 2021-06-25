@@ -1,6 +1,5 @@
 package com.lincheng.study.basejava.thread;
 
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author linCheng
@@ -12,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  *
  */
+@SuppressWarnings({"all"})
 public class StudyThread {
 
 
@@ -39,12 +39,11 @@ public class StudyThread {
          *      1、继承Thread类，重写run方法。
          *      2、实现Runnable接口，重写run方法。
          *
-         * 当前主方法为主线程，而cal.start()为子方法。
-         *
-         *
+         * 当前主方法为主线程，而cal.start()为子线程。
          *
          */
         cal cal = new cal();
+        //如果直接调用cal.run(),不会启动子线程（可以理解为，run()就是一个普通的方法），这样就会先执行完run()方法，才会执行下面的方法
         cal.start();
         //当main线程启动一个子线程 Thread-0，主线程不会阻塞，会继续执行
 
