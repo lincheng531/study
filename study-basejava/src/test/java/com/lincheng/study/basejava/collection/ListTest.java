@@ -59,7 +59,7 @@ public class ListTest {
         }
 
 
-        linkedList.set(0, "韩顺平教育");
+        linkedList.set(0, "lincheng");
         System.out.println("===");
         for (Object object : linkedList) {
             System.out.println(object);
