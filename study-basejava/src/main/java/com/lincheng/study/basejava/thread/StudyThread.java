@@ -28,6 +28,7 @@ public class StudyThread {
 
     public static void buildRunnable(){
         TestRunnable testRunnable = new TestRunnable();
+        //底层使用了设计模式[代理模式]
         Thread thread = new Thread(testRunnable);
         thread.start();
     }
