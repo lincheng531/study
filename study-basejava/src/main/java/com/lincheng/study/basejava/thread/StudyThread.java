@@ -1,6 +1,8 @@
 package com.lincheng.study.basejava.thread;
 
 
+import org.bouncycastle.util.test.TestFailedException;
+
 /**
  * @author linCheng
  * @date 2021/6/25 14:05
@@ -19,7 +21,38 @@ public class StudyThread {
 
         //getavailableProcessors();
 
-        buildThread();
+        //buildThread();
+
+        buildRunnable();
+    }
+
+    public static void buildRunnable(){
+        TestRunnable testRunnable = new TestRunnable();
+        Thread thread = new Thread(testRunnable);
+        thread.start();
+    }
+
+    /**
+     * 实现Runnable
+     */
+    static class TestRunnable implements Runnable{
+        int sun = 0;
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    sun ++;
+                    Thread.sleep(1000);
+                    System.out.println("测试线程:" + sun + "线程名称:" + Thread.currentThread().getName());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if(sun == 5){
+                    break;
+                }
+            }
+        }
     }
 
 

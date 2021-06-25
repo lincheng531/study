@@ -14,12 +14,19 @@ public class ThreadUtil {
 
     private static ExecutorService taskExe = new ThreadPoolExecutor(10,20,200L, TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>(),namedThreadFactory);
 
-    /**
-     * 在额外的线程执行对应的操作 -- 通过线程池来执行对应的操作
-     */
-    public static void runInNewThread(Runnable run) {
+    public static void runInNewThreadByThreadPoolExecutor(Runnable run) {
         if (run != null) {
             taskExe.execute(run);
         }
     }
+
+
+    private static ExecutorService threadTool = Executors.newCachedThreadPool();
+
+    public static void runInNewThreadByExecutors(Runnable run) {
+        if (run != null) {
+            threadTool.execute(run);
+        }
+    }
+
 }
