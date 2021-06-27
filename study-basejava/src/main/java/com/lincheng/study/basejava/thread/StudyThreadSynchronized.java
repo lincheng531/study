@@ -42,9 +42,16 @@ public class StudyThreadSynchronized {
      *          }
      *      }
      *
+     *
+     * 四、线程的死锁
+     *  基本介绍
+     *      多个线程都占用了对方的锁资源，但不肯相让，导致了死锁，在编程是一定要避免死锁的发生.
+     *
      **/
     public static void main(String[] args) {
-        TestThreadSynchronized();
+        //TestThreadSynchronized();
+
+        testDeadLock();
     }
 
     public static void TestThreadSynchronized(){
@@ -58,7 +65,6 @@ public class StudyThreadSynchronized {
         Thread thread3 = new Thread(sellTicket);
         thread3.setName("窗口三");
         thread3.start();
-
     }
 
 
@@ -97,5 +103,51 @@ public class StudyThreadSynchronized {
 
         }
     }
+
+
+
+    static class DeadLock extends Thread {
+        static Object o1 = new Object();
+        static Object o2 = new Object();
+        boolean flag;
+
+        public DeadLock(boolean flag) {
+            this.flag = flag;
+        }
+
+
+        @Override
+        public void run() {
+            if (flag) {
+                synchronized (o1) {
+                    System.out.println(Thread.currentThread().getName() + "进入了3");
+                    synchronized (o2) {//这里获得li对象的监视权
+                        System.out.println(Thread.currentThread().getName() + "进入4");
+                    }
+                }
+            } else {
+                synchronized (o2) {
+                    System.out.println(Thread.currentThread().getName() + "进入了3");
+                    synchronized (o1) {//这里获得1i对象的监视权
+                        System.out.println(Thread.currentThread().getName() + "进入4");
+                    }
+                }
+            }
+        }
+    }
+
+    private static void testDeadLock(){
+
+        DeadLock deadLock1 = new DeadLock(false);
+        deadLock1.setName("A线程");
+
+        DeadLock deadLock2 = new DeadLock(true);
+        deadLock2.setName("B线程");
+
+        deadLock1.start();
+        deadLock2.start();
+    }
+
+
 
 }
