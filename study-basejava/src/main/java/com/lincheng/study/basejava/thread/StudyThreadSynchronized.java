@@ -28,12 +28,10 @@ public class StudyThreadSynchronized {
      * }
      **/
     public static void main(String[] args) {
-
         TestThreadSynchronized();
     }
 
     public static void TestThreadSynchronized(){
-
         sellTicket sellTicket = new sellTicket();
         new Thread(sellTicket).start();
         new Thread(sellTicket).start();
@@ -44,7 +42,7 @@ public class StudyThreadSynchronized {
 
     static class sellTicket implements Runnable{
 
-        private int ticketNum = 100;
+        private int ticketNum = 20;
         private boolean loop = true;
 
         public synchronized void sell(){
@@ -58,7 +56,7 @@ public class StudyThreadSynchronized {
 
 
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
