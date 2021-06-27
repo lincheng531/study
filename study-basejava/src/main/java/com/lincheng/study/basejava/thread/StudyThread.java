@@ -151,6 +151,24 @@ public class StudyThread {
      * 7. sleep //在指定的毫秒数内让当前正在执行的线程休眠(暂停执行)(休眠当前线程)
      * 8. interrupt  //中断线程，但并没有真正的结束线程。所以一般用于中断正在休眠线程
      **/
+    public static void testThreadMethod() {
+        threadMethod threadMethod = new threadMethod();
+        threadMethod.setName("设置线程名称");
+        threadMethod.setPriority(Thread.MIN_PRIORITY);
+        threadMethod.start();
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //提前结束子线程的休眠，让子线程提前运行
+        threadMethod.interrupt();
+    }
+
+
+
     static class threadMethod extends Thread {
         @Override
         public void run() {
@@ -172,21 +190,7 @@ public class StudyThread {
     }
 
 
-    public static void testThreadMethod() {
-        threadMethod threadMethod = new threadMethod();
-        threadMethod.setName("设置线程名称");
-        threadMethod.setPriority(Thread.MIN_PRIORITY);
-        threadMethod.start();
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        //提前结束子线程的休眠，让子线程提前运行
-        threadMethod.interrupt();
-    }
 
 
     /**
@@ -195,23 +199,6 @@ public class StudyThread {
      * 案例:创建一个子线程,每隔1s输出hello,输出20次，主线程每隔1秒，输出hi ,输出20次,要求:两个线
      * 程同时执行，当主线程输出5次后，就让子线程运行完毕，主线程再继续，
      **/
-    static class threadMethod2 extends Thread {
-
-        @Override
-        public void run() {
-            for (int i = 1; i <= 20; i++) {
-                try {
-                    Thread.sleep(1000);//休眠1秒
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("子线程吃了(老大)" + i + "包子");
-            }
-
-        }
-    }
-
-
     public static void testThreadMethod2() {
         threadMethod2 threadMethod2 = new threadMethod2();
         threadMethod2.start();
@@ -227,7 +214,7 @@ public class StudyThread {
                     //这里相当于让threadMethod2线程先执行完毕
                     threadMethod2.join();
                     //礼让， 不一定成功..
-                    threadMethod2.yield();
+                    //threadMethod2.yield();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -242,7 +229,26 @@ public class StudyThread {
     }
 
 
+    static class threadMethod2 extends Thread {
+        @Override
+        public void run() {
+            for (int i = 1; i <= 20; i++) {
+                try {
+                    Thread.sleep(1000);//休眠1秒
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("子线程吃了(老大)" + i + "包子");
+            }
+        }
+    }
 
+
+    /**
+     * 1.用户线程:也叫工作线程，当线程的任务执行完或通知方式结束
+     * 2.守护线程: 一般是为工作线程服务的，当所有的用户线程结束，守护线程自动结束
+     * 3.常见的守护线程:垃圾回收机制
+     **/
     public static void testMyDaemonThread() {
         MyDaemonThread myDaemonThread = new MyDaemonThread();
         //如果我们希望当main线程结束后，子线程自动结束
@@ -261,11 +267,7 @@ public class StudyThread {
 
     }
 
-    /**
-     * 1.用户线程:也叫工作线程，当线程的任务执行完或通知方式结束
-     * 2.守护线程: 一般是为工作线程服务的，当所有的用户线程结束，守护线程自动结束
-     * 3.常见的守护线程:垃圾回收机制
-     **/
+
     static class MyDaemonThread extends Thread {
         @Override
         public void run() {
