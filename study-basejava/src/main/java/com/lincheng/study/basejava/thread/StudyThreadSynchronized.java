@@ -33,37 +33,39 @@ public class StudyThreadSynchronized {
 
     public static void TestThreadSynchronized(){
         sellTicket sellTicket = new sellTicket();
-        new Thread(sellTicket).start();
-        new Thread(sellTicket).start();
-        new Thread(sellTicket).start();
+        Thread thread1 = new Thread(sellTicket);
+        thread1.setName("窗口一");
+        thread1.start();
+        Thread thread2 = new Thread(sellTicket);
+        thread2.setName("窗口二");
+        thread2.start();
+        Thread thread3 = new Thread(sellTicket);
+        thread3.setName("窗口三");
+        thread3.start();
 
     }
 
 
     static class sellTicket implements Runnable{
 
-        private int ticketNum = 20;
+        private int ticketNum = 100;
         private boolean loop = true;
 
         public synchronized void sell(){
-
-            while (true){
-                if (ticketNum <= 0){
-                    loop = false;
-                    System.out.println("售票结束----");
-                    return;
-                }
-
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                System.out.println("窗口"+ Thread.currentThread().getName() + "售出一张票" +"剩余票数=" + (--ticketNum));
-
+            if (ticketNum <= 0){
+                loop = false;
+                System.out.println("售票结束----");
+                return;
             }
+
+
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("窗口"+ Thread.currentThread().getName() + "售出一张票" +"剩余票数=" + (--ticketNum));
         }
 
         @Override
