@@ -149,7 +149,9 @@ public class StudyThread {
      * 5. setPriority //更改线程的优先级
      * 6. getPriority //获取线程的优先级
      * 7. sleep //在指定的毫秒数内让当前正在执行的线程休眠(暂停执行)(休眠当前线程)
-     * 8. interrupt  //中断线程，但并没有真正的结束线程。所以一般用于中断正在休眠线程
+     * 8. interrupt  //中断线程，(只是标记线程中断)但并没有真正的结束线程。所以一般用于中断正在休眠线程。
+     * 9. isAlive //线程活动状态
+     * 10. getId //线程的唯一标识（运行结束，id会被后面的线程使用）
      **/
     public static void testThreadMethod() {
         threadMethod threadMethod = new threadMethod();
@@ -176,6 +178,11 @@ public class StudyThread {
                 for (int i = 0; i < 3; i++) {
                     //Thread.currentThread().getName()获取当前线程的名称
                     System.out.println(Thread.currentThread().getName() + "吃包子~" + i);
+                    //当然线程是否被标记中断
+                   /* if(this.isDaemon()){
+                        System.out.println("当前线程被标记成中线");
+                        return;
+                    }*/
                 }
                 try {
                     System.out.println(Thread.currentThread().getName() + "休眠中");
