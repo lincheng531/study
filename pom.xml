@@ -20,5 +20,6 @@
         <module>study-dubbo-consumer</module>
         <module>study-dubbo-product</module>
         <module>study-basejava</module>
+        <module>study-mybatis-generator</module>
     </modules>
 </project>
