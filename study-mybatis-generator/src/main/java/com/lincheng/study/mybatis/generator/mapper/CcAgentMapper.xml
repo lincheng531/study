@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lincheng.study.mybatis.generator.dao.CcAgentMapper" >
+  <resultMap id="BaseResultMap" type="com.lincheng.study.mybatis.generator.entity.CcAgent" >
+    <id column="AGENT_ID" property="agentId" jdbcType="INTEGER" />
+    <result column="AGENT_NAME" property="agentName" jdbcType="VARCHAR" />
+    <result column="COMP_ID" property="compId" jdbcType="INTEGER" />
+    <result column="COMP_NAME" property="compName" jdbcType="VARCHAR" />
+    <result column="CUSTOME_ID" property="customeId" jdbcType="INTEGER" />
+    <result column="NUMBER" property="number" jdbcType="VARCHAR" />
+    <result column="AGENT_STATE" property="agentState" jdbcType="VARCHAR" />
+    <result column="SUB_ACCOUNT_ID" property="subAccountId" jdbcType="VARCHAR" />
+    <result column="SUB_TOKEN" property="subToken" jdbcType="VARCHAR" />
+    <result column="DATE_CREATED" property="dateCreated" jdbcType="TIMESTAMP" />
+    <result column="VOIP_ACCOUNT" property="voipAccount" jdbcType="VARCHAR" />
+    <result column="VOIP_PWD" property="voipPwd" jdbcType="VARCHAR" />
+    <result column="CREATE_OPER_ID" property="createOperId" jdbcType="VARCHAR" />
+    <result column="CREATE_OPER_TIME" property="createOperTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_OPER_ID" property="updateOperId" jdbcType="VARCHAR" />
+    <result column="UPDATE_OPER_TIME" property="updateOperTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    AGENT_ID, AGENT_NAME, COMP_ID, COMP_NAME, CUSTOME_ID, NUMBER, AGENT_STATE, SUB_ACCOUNT_ID, 
+    SUB_TOKEN, DATE_CREATED, VOIP_ACCOUNT, VOIP_PWD, CREATE_OPER_ID, CREATE_OPER_TIME, 
+    UPDATE_OPER_ID, UPDATE_OPER_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lincheng.study.mybatis.generator.entity.CcAgentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cc_agent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cc_agent
+    where AGENT_ID = #{agentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cc_agent
+    where AGENT_ID = #{agentId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lincheng.study.mybatis.generator.entity.CcAgentExample" >
+    delete from cc_agent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lincheng.study.mybatis.generator.entity.CcAgent" >
+    insert into cc_agent (AGENT_ID, AGENT_NAME, COMP_ID, 
+      COMP_NAME, CUSTOME_ID, NUMBER, 
+      AGENT_STATE, SUB_ACCOUNT_ID, SUB_TOKEN, 
+      DATE_CREATED, VOIP_ACCOUNT, VOIP_PWD, 
+      CREATE_OPER_ID, CREATE_OPER_TIME, UPDATE_OPER_ID, 
+      UPDATE_OPER_TIME)
+    values (#{agentId,jdbcType=INTEGER}, #{agentName,jdbcType=VARCHAR}, #{compId,jdbcType=INTEGER}, 
+      #{compName,jdbcType=VARCHAR}, #{customeId,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, 
+      #{agentState,jdbcType=VARCHAR}, #{subAccountId,jdbcType=VARCHAR}, #{subToken,jdbcType=VARCHAR}, 
+      #{dateCreated,jdbcType=TIMESTAMP}, #{voipAccount,jdbcType=VARCHAR}, #{voipPwd,jdbcType=VARCHAR}, 
+      #{createOperId,jdbcType=VARCHAR}, #{createOperTime,jdbcType=TIMESTAMP}, #{updateOperId,jdbcType=VARCHAR}, 
+      #{updateOperTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lincheng.study.mybatis.generator.entity.CcAgent" >
+    insert into cc_agent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="agentId != null" >
+        AGENT_ID,
+      </if>
+      <if test="agentName != null" >
+        AGENT_NAME,
+      </if>
+      <if test="compId != null" >
+        COMP_ID,
+      </if>
+      <if test="compName != null" >
+        COMP_NAME,
+      </if>
+      <if test="customeId != null" >
+        CUSTOME_ID,
+      </if>
+      <if test="number != null" >
+        NUMBER,
+      </if>
+      <if test="agentState != null" >
+        AGENT_STATE,
+      </if>
+      <if test="subAccountId != null" >
+        SUB_ACCOUNT_ID,
+      </if>
+      <if test="subToken != null" >
+        SUB_TOKEN,
+      </if>
+      <if test="dateCreated != null" >
+        DATE_CREATED,
+      </if>
+      <if test="voipAccount != null" >
+        VOIP_ACCOUNT,
+      </if>
+      <if test="voipPwd != null" >
+        VOIP_PWD,
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID,
+      </if>
+      <if test="createOperTime != null" >
+        CREATE_OPER_TIME,
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID,
+      </if>
+      <if test="updateOperTime != null" >
+        UPDATE_OPER_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="agentId != null" >
+        #{agentId,jdbcType=INTEGER},
+      </if>
+      <if test="agentName != null" >
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="compId != null" >
+        #{compId,jdbcType=INTEGER},
+      </if>
+      <if test="compName != null" >
+        #{compName,jdbcType=VARCHAR},
+      </if>
+      <if test="customeId != null" >
+        #{customeId,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="agentState != null" >
+        #{agentState,jdbcType=VARCHAR},
+      </if>
+      <if test="subAccountId != null" >
+        #{subAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="subToken != null" >
+        #{subToken,jdbcType=VARCHAR},
+      </if>
+      <if test="dateCreated != null" >
+        #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="voipAccount != null" >
+        #{voipAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="voipPwd != null" >
+        #{voipPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperTime != null" >
+        #{createOperTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateOperId != null" >
+        #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperTime != null" >
+        #{updateOperTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lincheng.study.mybatis.generator.entity.CcAgentExample" resultType="java.lang.Integer" >
+    select count(*) from cc_agent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cc_agent
+    <set >
+      <if test="record.agentId != null" >
+        AGENT_ID = #{record.agentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.agentName != null" >
+        AGENT_NAME = #{record.agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.compId != null" >
+        COMP_ID = #{record.compId,jdbcType=INTEGER},
+      </if>
+      <if test="record.compName != null" >
+        COMP_NAME = #{record.compName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customeId != null" >
+        CUSTOME_ID = #{record.customeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.number != null" >
+        NUMBER = #{record.number,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentState != null" >
+        AGENT_STATE = #{record.agentState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subAccountId != null" >
+        SUB_ACCOUNT_ID = #{record.subAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subToken != null" >
+        SUB_TOKEN = #{record.subToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dateCreated != null" >
+        DATE_CREATED = #{record.dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.voipAccount != null" >
+        VOIP_ACCOUNT = #{record.voipAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.voipPwd != null" >
+        VOIP_PWD = #{record.voipPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createOperId != null" >
+        CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createOperTime != null" >
+        CREATE_OPER_TIME = #{record.createOperTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateOperId != null" >
+        UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateOperTime != null" >
+        UPDATE_OPER_TIME = #{record.updateOperTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cc_agent
+    set AGENT_ID = #{record.agentId,jdbcType=INTEGER},
+      AGENT_NAME = #{record.agentName,jdbcType=VARCHAR},
+      COMP_ID = #{record.compId,jdbcType=INTEGER},
+      COMP_NAME = #{record.compName,jdbcType=VARCHAR},
+      CUSTOME_ID = #{record.customeId,jdbcType=INTEGER},
+      NUMBER = #{record.number,jdbcType=VARCHAR},
+      AGENT_STATE = #{record.agentState,jdbcType=VARCHAR},
+      SUB_ACCOUNT_ID = #{record.subAccountId,jdbcType=VARCHAR},
+      SUB_TOKEN = #{record.subToken,jdbcType=VARCHAR},
+      DATE_CREATED = #{record.dateCreated,jdbcType=TIMESTAMP},
+      VOIP_ACCOUNT = #{record.voipAccount,jdbcType=VARCHAR},
+      VOIP_PWD = #{record.voipPwd,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      CREATE_OPER_TIME = #{record.createOperTime,jdbcType=TIMESTAMP},
+      UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      UPDATE_OPER_TIME = #{record.updateOperTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lincheng.study.mybatis.generator.entity.CcAgent" >
+    update cc_agent
+    <set >
+      <if test="agentName != null" >
+        AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="compId != null" >
+        COMP_ID = #{compId,jdbcType=INTEGER},
+      </if>
+      <if test="compName != null" >
+        COMP_NAME = #{compName,jdbcType=VARCHAR},
+      </if>
+      <if test="customeId != null" >
+        CUSTOME_ID = #{customeId,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        NUMBER = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="agentState != null" >
+        AGENT_STATE = #{agentState,jdbcType=VARCHAR},
+      </if>
+      <if test="subAccountId != null" >
+        SUB_ACCOUNT_ID = #{subAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="subToken != null" >
+        SUB_TOKEN = #{subToken,jdbcType=VARCHAR},
+      </if>
+      <if test="dateCreated != null" >
+        DATE_CREATED = #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="voipAccount != null" >
+        VOIP_ACCOUNT = #{voipAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="voipPwd != null" >
+        VOIP_PWD = #{voipPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperTime != null" >
+        CREATE_OPER_TIME = #{createOperTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperTime != null" >
+        UPDATE_OPER_TIME = #{updateOperTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where AGENT_ID = #{agentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lincheng.study.mybatis.generator.entity.CcAgent" >
+    update cc_agent
+    set AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+      COMP_ID = #{compId,jdbcType=INTEGER},
+      COMP_NAME = #{compName,jdbcType=VARCHAR},
+      CUSTOME_ID = #{customeId,jdbcType=INTEGER},
+      NUMBER = #{number,jdbcType=VARCHAR},
+      AGENT_STATE = #{agentState,jdbcType=VARCHAR},
+      SUB_ACCOUNT_ID = #{subAccountId,jdbcType=VARCHAR},
+      SUB_TOKEN = #{subToken,jdbcType=VARCHAR},
+      DATE_CREATED = #{dateCreated,jdbcType=TIMESTAMP},
+      VOIP_ACCOUNT = #{voipAccount,jdbcType=VARCHAR},
+      VOIP_PWD = #{voipPwd,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      CREATE_OPER_TIME = #{createOperTime,jdbcType=TIMESTAMP},
+      UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      UPDATE_OPER_TIME = #{updateOperTime,jdbcType=TIMESTAMP}
+    where AGENT_ID = #{agentId,jdbcType=INTEGER}
+  </update>
+</mapper>
