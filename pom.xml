@@ -21,5 +21,6 @@
         <module>study-dubbo-product</module>
         <module>study-basejava</module>
         <module>study-mybatis-generator</module>
+        <module>study-mysql</module>
     </modules>
 </project>
