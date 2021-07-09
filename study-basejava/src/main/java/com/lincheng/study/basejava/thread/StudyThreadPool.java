@@ -78,7 +78,6 @@ public class StudyThreadPool {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
         //手动创建
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 10, 0, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),new ThreadPoolExecutor.CallerRunsPolicy());
-
     }
 
 }
