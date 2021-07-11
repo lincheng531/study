@@ -1,6 +1,7 @@
 package com.lincheng.study.basejava.collection;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,5 +27,10 @@ public class StydyCollection {
         Collections.frequency(list,1);
         //指定元素替换
         Collections.replaceAll(list,1,0);
+        //确保一个集合不能被修改,如果再次添加会报出异常
+        Collections.unmodifiableCollection(list);
+        //把ArrayList变成线程安全。
+        List<Integer> integers = Collections.synchronizedList(list);
+
     }
 }
