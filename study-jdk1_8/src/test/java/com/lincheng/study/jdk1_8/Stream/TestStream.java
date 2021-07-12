@@ -288,9 +288,21 @@ public class TestStream {
     }
 
     public static void main(String[] args) {
-        String a = "1";
-        boolean present = Optional.ofNullable(a).isPresent();
-        System.out.println(present);
+        List<String> list=new ArrayList<String>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        String result = list.stream().map(String::valueOf).collect(Collectors.joining(","));
+        System.out.println(result);
+
+        String s = String.join(",", list);
+        System.out.println(s);
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("1","1");
+        hashMap.put("2","2");
+        hashMap.put("3","3");
+
     }
 
 
