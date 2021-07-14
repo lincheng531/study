@@ -1,4 +1,4 @@
-package com.lincheng.study.basejava.cas;
+package com.lincheng.study.basejava.thread;
 
 import com.lincheng.study.common.domain.alioss.vo.OssFileBusinessVO;
 
