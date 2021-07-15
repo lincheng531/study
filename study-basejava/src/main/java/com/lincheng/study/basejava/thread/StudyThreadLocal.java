@@ -6,9 +6,14 @@ package com.lincheng.study.basejava.thread;
  */
 public class StudyThreadLocal {
 
+    /**
+     * 用空间换时间 （sync = threadLocal）
+     *
+     */
+
     public static void main(String[] args) {
         //test1();
-        test2();
+        //test2();
     }
 
     public static void test2(){
@@ -36,6 +41,17 @@ public class StudyThreadLocal {
                 myDemo1.setContext(Thread.currentThread().getName());
                 System.out.println(Thread.currentThread().getName() + "=" + myDemo1.getContext());
             },"线程" + i).start();
+
+
+            /*
+            //可以解决
+            new Thread(()->{
+                synchronized (MyDemo1.class) {
+                    myDemo1.setContext(Thread.currentThread().getName());
+                    System.out.println(Thread.currentThread().getName() + "=" + myDemo1.getContext());
+                }
+            },"线程" + i).start();
+            */
         }
     }
 
