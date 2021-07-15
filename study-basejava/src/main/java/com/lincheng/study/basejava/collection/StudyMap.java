@@ -1,5 +1,7 @@
 package com.lincheng.study.basejava.collection;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * @author lincheng5
  * @date 2021/6/24 23:42
@@ -31,5 +33,12 @@ public class StudyMap {
                     3)为了提高 GC的效率
          *
          */
+    }
+
+
+
+    public static void testConcurrentHashMap(){
+        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+        concurrentHashMap.put("1","1");
     }
 }
