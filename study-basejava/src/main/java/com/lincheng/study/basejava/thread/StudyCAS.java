@@ -66,7 +66,7 @@ public class StudyCAS {
         AtomicReference<Integer> atomicReference = new AtomicReference<>(100);
 
         new Thread(() -> {
-            atomicReference.compareAndSet(100, 101);
+            boolean b = atomicReference.compareAndSet(100, 101);
             atomicReference.compareAndSet(101, 100);
         }).start();
 
