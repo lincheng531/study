@@ -17,6 +17,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+//分片为3，副本为1
 @Document(indexName = "product", shards = 3, replicas = 1)
 /**
  * type : 字段数据类型
