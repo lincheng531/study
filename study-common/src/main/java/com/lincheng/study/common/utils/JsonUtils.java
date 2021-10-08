@@ -61,17 +61,8 @@ public class JsonUtils {
      * @param: object
      * @Return: java.lang.String
      */
-    public static String initialCapitalizationToJSONString(Object object) {
+    public static String CapitalizeFirstLetterToJSONString(Object object) {
        return JSON.toJSONString(object,new PascalNameFilter());
-    }
-
-    public static void main(String[] args) {
-
-        OssFileBusinessVO ossFileBusinessVO = new OssFileBusinessVO();
-        ossFileBusinessVO.setOssFileInfoId(23234L);
-        ossFileBusinessVO.setBusinessId("23423");
-        ossFileBusinessVO.setOperatorName("l;in");
-        System.out.println(initialCapitalizationToJSONString(ossFileBusinessVO));
     }
 
 }
