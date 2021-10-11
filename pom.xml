@@ -22,5 +22,6 @@
         <module>study-basejava</module>
         <module>study-mybatis-generator</module>
         <module>study-mysql</module>
+        <module>study-mybatis</module>
     </modules>
 </project>
