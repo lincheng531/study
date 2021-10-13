@@ -23,6 +23,5 @@
         <module>study-mybatis-generator</module>
         <module>study-middleware</module>
         <module>study-mybatis</module>
-
     </modules>
 </project>
