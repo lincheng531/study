@@ -11,7 +11,7 @@
     <groupId>com.lincheng.study.middleware</groupId>
     <artifactId>study-middleware</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>study-mysql</name>
+    <name>study-middleware</name>
     <description>学习数据库与orm框架</description>
     <properties>
         <java.version>1.8</java.version>
@@ -22,12 +22,16 @@
             <groupId>com.lincheng.study</groupId>
             <artifactId>study-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba.cloud</groupId>
+                    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.alibaba.cloud</groupId>
+                    <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
