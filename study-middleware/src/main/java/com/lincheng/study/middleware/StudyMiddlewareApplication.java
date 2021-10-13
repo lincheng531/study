@@ -1,13 +1,13 @@
-package com.lincheng.study.mysql;
+package com.lincheng.study.middleware;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class StudyMysqlApplication {
+public class StudyMiddlewareApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StudyMysqlApplication.class, args);
+        SpringApplication.run(StudyMiddlewareApplication.class, args);
     }
 
 }

@@ -1,10 +1,10 @@
-package com.lincheng.study.mysql;
+package com.lincheng.study.middleware;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StudyMysqlApplicationTests {
+class StudyMiddlewareApplicationTests {
 
     @Test
     void contextLoads() {

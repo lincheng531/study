@@ -8,8 +8,8 @@
         <version>2.3.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.lincheng.study.mysql</groupId>
-    <artifactId>study-mysql</artifactId>
+    <groupId>com.lincheng.study.middleware</groupId>
+    <artifactId>study-middleware</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>study-mysql</name>
     <description>学习数据库与orm框架</description>
@@ -17,6 +17,14 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+
+        <dependency>
+            <groupId>com.lincheng.study</groupId>
+            <artifactId>study-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
