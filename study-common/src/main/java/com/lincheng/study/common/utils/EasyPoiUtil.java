@@ -127,8 +127,9 @@ public class EasyPoiUtil {
      */
     private static void defaultExport(List<Map<String, Object>> list, String fileName, HttpServletResponse response) {
         Workbook workbook = ExcelExportUtil.exportExcel(list, ExcelType.HSSF);
-        if (workbook != null) ;
-        downLoadExcel(fileName, response, workbook);
+        if (workbook != null) {
+            downLoadExcel(fileName, response, workbook);
+        }
     }
 
 
@@ -180,6 +181,36 @@ public class EasyPoiUtil {
         }
         ImportParams params = new ImportParams();
         params.setTitleRows(titleRows);
+        params.setHeadRows(headerRows);
+        List<T> list = null;
+        try {
+            list = ExcelImportUtil.importExcel(file.getInputStream(), pojoClass, params);
+        } catch (NoSuchElementException e) {
+            throw new RuntimeException("excel文件不能为空");
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+
+        }
+        return list;
+    }
+
+
+
+    /**
+     * 功能描述：根据接收的Excel文件来导入Excel,并封装成实体类
+     *
+     * @author lincheng5
+     * @date 2021/10/17 22:45
+     * @param file 上传的文件
+     * @param headerRows 表头行数
+     * @param pojoClass Excel实体类
+     * @return
+     */
+    public static <T> List<T> importExcel(MultipartFile file,Integer headerRows, Class<T> pojoClass) {
+        if (file == null) {
+            return null;
+        }
+        ImportParams params = new ImportParams();
         params.setHeadRows(headerRows);
         List<T> list = null;
         try {
