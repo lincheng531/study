@@ -1,7 +1,7 @@
 package com.lincheng.study.middleware.controller;
 
-import com.lincheng.study.common.domain.middleware.excel.vo.StudentVO;
-import com.lincheng.study.common.utils.ExcelUtils;
+import com.lincheng.study.common.domain.middleware.excel.vo.EasyPoiDemoVO;
+import com.lincheng.study.common.utils.EasyPoiUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,23 +23,23 @@ public class ExcelController {
     @RequestMapping("/export")
     public void export(HttpServletResponse response) {
 
-        List<StudentVO> studentVOList = new ArrayList<>();
-        StudentVO studentVO1 = new StudentVO();
-        studentVO1.setId(1);
-        studentVO1.setBirthday(new Date());
-        studentVO1.setName("李四");
-        studentVO1.setRegistrationDate(new Date());
-        studentVO1.setSex("1");
-        studentVOList.add(studentVO1);
-        StudentVO studentVO2 = new StudentVO();
-        studentVO2.setId(2);
-        studentVO2.setBirthday(new Date());
-        studentVO2.setName("王五");
-        studentVO2.setRegistrationDate(new Date());
-        studentVO2.setSex("2");
-        studentVOList.add(studentVO2);
+        List<EasyPoiDemoVO> easyPoiDemoVOList = new ArrayList<>();
+        EasyPoiDemoVO easyPoiDemoVO1 = new EasyPoiDemoVO();
+        easyPoiDemoVO1.setId(1);
+        easyPoiDemoVO1.setBirthday(new Date());
+        easyPoiDemoVO1.setName("李四");
+        easyPoiDemoVO1.setRegistrationDate(new Date());
+        easyPoiDemoVO1.setSex("1");
+        easyPoiDemoVOList.add(easyPoiDemoVO1);
+        EasyPoiDemoVO easyPoiDemoVO2 = new EasyPoiDemoVO();
+        easyPoiDemoVO2.setId(2);
+        easyPoiDemoVO2.setBirthday(new Date());
+        easyPoiDemoVO2.setName("王五");
+        easyPoiDemoVO2.setRegistrationDate(new Date());
+        easyPoiDemoVO2.setSex("2");
+        easyPoiDemoVOList.add(easyPoiDemoVO2);
 
-        ExcelUtils.exportExcel(studentVOList, "easypoi导出功能(用户表)", "导出sheet1", StudentVO.class, "测试Users.xls", response);
+        EasyPoiUtil.exportExcel(easyPoiDemoVOList, "easypoi导出功能(用户表)", "导出sheet1", EasyPoiDemoVO.class, "测试Users.xls", response);
 
     }
 

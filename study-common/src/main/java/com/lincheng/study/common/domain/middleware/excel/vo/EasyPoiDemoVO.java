@@ -18,7 +18,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class StudentVO implements Serializable {
+public class EasyPoiDemoVO implements Serializable {
 
     @Excel(name = "序号", width = 10) //后期controller中将为id字段重新赋值，实现序号效果
     private Integer id;
