@@ -1,12 +1,16 @@
 package com.lincheng.study.mybatisplus.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
  * @author lincheng5
  * @date 2021/11/1 23:19
  */
+//定义实体类,默认的表名和实体类同名; 如果不一致,在实体类定义上面使用
+@TableName(value = "study_mybatis_plus")
 public class StudyMybatisPlus {
 
     /**
@@ -17,6 +21,11 @@ public class StudyMybatisPlus {
     @TableId(value = "id" ,type = IdType.AUTO)
     private Integer id;
 
+    /**
+     * 指定属性和列名的对应关系。
+     * 默认属性名 等于 数据库字段名
+     */
+    @TableField(value = "name")
     private String name;
 
     private Integer age;
