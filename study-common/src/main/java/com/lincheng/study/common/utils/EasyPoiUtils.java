@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
  * @author lincheng5
  * @date 2021/10/17 22:45
  */
-public class EasyPoiUtil {
+public class EasyPoiUtils {
     /**
      * 功能描述：复杂导出Excel，包括文件名以及表名。创建表头
      *

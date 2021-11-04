@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.lincheng.study.common.domain.dubbo.vo.ProductVO;
 import com.lincheng.study.common.domain.middleware.excel.vo.EasyPoiDemoAchievementVO;
 import com.lincheng.study.common.domain.middleware.excel.vo.EasyPoiDemoVO;
-import com.lincheng.study.common.utils.EasyPoiUtil;
+import com.lincheng.study.common.utils.EasyPoiUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,7 +59,7 @@ public class ExcelController {
         easyPoiDemoVO2.setAchievemen(achievemen2);
         easyPoiDemoVOList.add(easyPoiDemoVO2);
 
-        EasyPoiUtil.exportExcel(easyPoiDemoVOList, "easypoi导出功能(用户表)", "导出sheet1", EasyPoiDemoVO.class, "测试Users.xls", response);
+        EasyPoiUtils.exportExcel(easyPoiDemoVOList, "easypoi导出功能(用户表)", "导出sheet1", EasyPoiDemoVO.class, "测试Users.xls", response);
 
     }
 
@@ -69,7 +69,7 @@ public class ExcelController {
     public void export(@RequestParam("file") MultipartFile file, ProductVO productVO) {
         System.out.println(JSON.toJSONString(productVO));
 
-        List<EasyPoiDemoVO> easyPoiDemoVOS = EasyPoiUtil.importExcel(file, 2, EasyPoiDemoVO.class);
+        List<EasyPoiDemoVO> easyPoiDemoVOS = EasyPoiUtils.importExcel(file, 2, EasyPoiDemoVO.class);
 
         System.out.println(JSON.toJSONString(easyPoiDemoVOS));
     }
