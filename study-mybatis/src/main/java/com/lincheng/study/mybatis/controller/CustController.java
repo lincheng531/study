@@ -35,8 +35,7 @@ public class CustController {
         CCustExample example = new CCustExample();
         List<CCust> cCusts = cCustMapper.selectByExample(example);
 
-        //PageInfo<CCust> pageInfo=new PageInfo(cCusts,3);
-        PageInfo pageInfo = new PageInfo(cCusts);
+        PageInfo<CCust> pageInfo=new PageInfo(cCusts);
         return pageInfo;
     }
 
