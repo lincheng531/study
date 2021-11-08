@@ -49,7 +49,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.16</version>
-            <scope>provided</scope>
         </dependency>
 
         <!--json解析-->
@@ -59,19 +58,6 @@
             <version>1.2.47</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.4.13</version>
-            <scope>compile</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.google.code.google-collections</groupId>
-            <artifactId>google-collect</artifactId>
-            <version>snapshot-20080530</version>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>

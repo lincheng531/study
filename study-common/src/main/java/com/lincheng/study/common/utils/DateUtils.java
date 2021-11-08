@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * @description: 日期工具类
@@ -17,6 +18,10 @@ public class DateUtils {
 
     private static String YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
 
+    private static String YYYYMMDDHHMM = "yyyy-MM-dd HH:mm";
+
+    private static String YYYYMMDDHH = "yyyy-MM-dd HH";
+
     private static String YYYYMMDD = "yyyy-MM-dd";
 
     private static String YYYYMM = "yyyy-MM";
@@ -24,16 +29,45 @@ public class DateUtils {
 
     /**
      * @Description: Date To String
+     *               pattern 默认 "yyyy-MM-dd HH:mm:ss"
      * @author: linCheng
-     * @Date: 2021/10/8 20:39
+     * @Date: 2021/11/5 10:18
      * @param: date
-     * @param: pattern
      * @Return: java.lang.String
+     */
+    public static String dateToString(Date date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYYMMDDHHMMSS);
+        LocalDateTime localDateTime = dateToLocalDateTime(date);
+        return formatter.format(localDateTime);
+    }
+
+
+    /**
+     * @Description Date To String
+     * @author linCheng
+     * @Date 2021/10/8 20:39
+     * @param date
+     * @param pattern
+     * @Return java.lang.String
      */
     public static String dateToString(Date date, String pattern) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         LocalDateTime localDateTime = dateToLocalDateTime(date);
         return formatter.format(localDateTime);
+    }
+
+
+    /**
+     * @Description: String To Date
+     * @author: linCheng
+     * @Date: 2021/10/8 20:38
+     * @param: date
+     * @Return: java.util.Date
+     */
+    public static Date stringToDate(String date) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(YYYYMMDDHHMMSS);
+        LocalDateTime localDateTime = LocalDateTime.parse(date, dateTimeFormatter);
+        return localDateTimeToDate(localDateTime);
     }
 
 
@@ -135,9 +169,16 @@ public class DateUtils {
     }
 
 
-
-    public static LocalDateTime timestampToLocalDateTime(Long timestamp){
-        return LocalDateTime.ofEpochSecond(timestamp/1000,0,ZoneOffset.ofHours(8));
+    /**
+     * @Description: Timestamp To LocalDateTime
+     * @author: linCheng
+     * @Date: 2021/11/5 10:16
+     * @param: timestamp
+     * @Return: java.time.LocalDateTime
+     */
+    public static LocalDateTime timestampToLocalDateTime(Timestamp timestamp){
+        long time = timestamp.getTime();
+        return LocalDateTime.ofEpochSecond(time/1000,0,ZoneOffset.ofHours(8));
     }
 
 
@@ -149,7 +190,20 @@ public class DateUtils {
      * @param: pattern
      * @Return: java.lang.String
      */
-    public static String timestampToString(Long timestamp, String pattern){
+    public static String timestampToString(Timestamp timestamp){
+        return localDateTimeToString(timestampToLocalDateTime(timestamp), YYYYMMDDHHMMSS);
+    }
+
+
+    /**
+     * @Description: Timestamp To String
+     * @author: linCheng
+     * @Date: 2021/10/22 17:45
+     * @param: timestamp
+     * @param: pattern
+     * @Return: java.lang.String
+     */
+    public static String timestampToString(Timestamp timestamp, String pattern){
         return localDateTimeToString(timestampToLocalDateTime(timestamp), pattern);
     }
 
@@ -159,11 +213,38 @@ public class DateUtils {
      * @author: linCheng
      * @Date: 2021/10/22 17:44
      * @param: date
-     * @param: pattern
-     * @Return: java.lang.Long
+     * @Return: java.sql.Timestamp
      */
-    public static Long stringToTimestamp(String date, String pattern){
+    public static Timestamp stringToTimestamp(String date){
+        return dateToTimestamp(stringToDate(date,YYYYMMDDHHMMSS));
+    }
+
+
+    /**
+     * @Description: String To Timestamp
+     * @author: linCheng
+     * @Date: 2021/10/22 17:44
+     * @param: date
+     * @param: pattern
+     * @Return: java.sql.Timestamp
+     */
+    public static Timestamp stringToTimestamp(String date, String pattern){
        return dateToTimestamp(stringToDate(date,pattern));
+    }
+
+
+    /**
+     * @Description: LocalDateTime To String
+     * @author: linCheng
+     * @Date: 2021/10/22 17:40
+     * @param: localDateTime
+     * @Return: java.lang.String
+     */
+    public static String localDateTimeToString(LocalDateTime localDateTime){
+        if(null == localDateTime){
+            localDateTime = LocalDateTime.now();
+        }
+        return DateTimeFormatter.ofPattern(YYYYMMDDHHMMSS).format(localDateTime);
     }
 
 
@@ -188,6 +269,18 @@ public class DateUtils {
      * @author: linCheng
      * @Date: 2021/10/22 17:40
      * @param: date
+     * @Return: java.time.LocalDateTime
+     */
+    public static LocalDateTime stringToLocalDateTime(String date){
+        return LocalDateTime.parse(date,DateTimeFormatter.ofPattern(YYYYMMDDHHMMSS));
+    }
+
+
+    /**
+     * @Description: String To LocalDateTime
+     * @author: linCheng
+     * @Date: 2021/10/22 17:40
+     * @param: date
      * @param: pattern
      * @Return: java.time.LocalDateTime
      */
@@ -196,20 +289,18 @@ public class DateUtils {
     }
 
 
-
-
     /**
      * @Description: Date To Timestamp
      * @author: linCheng
      * @Date: 2021/10/22 17:32
      * @param: date
-     * @Return: java.lang.Long
+     * @Return: java.sql.Timestamp
      */
-    public static Long dateToTimestamp(Date date){
+    public static Timestamp dateToTimestamp(Date date){
         if(null == date){
             date = new Date();
         }
-        return new Timestamp(date.getTime()).getTime();
+        return new Timestamp(date.getTime());
     }
 
 
@@ -220,12 +311,11 @@ public class DateUtils {
      * @param: timestamp
      * @Return: java.util.Date
      */
-    public static Date timestampToDate(Long timestamp){
+    public static Date timestampToDate(Timestamp timestamp){
         if(null == timestamp){
-            timestamp = System.currentTimeMillis();
+            timestamp = new Timestamp(System.currentTimeMillis());
         }
-        Timestamp t = new Timestamp(timestamp);
-        return new Date(t.getTime());
+        return new Date(timestamp.getTime());
     }
 
 
@@ -236,8 +326,9 @@ public class DateUtils {
      * @param: timestamp
      * @Return: java.time.LocalDate
      */
-    public static LocalDate timestampToLocalDate(Long timestamp){
-        return dateToLocalDate(localDateTimeToDate(LocalDateTime.ofEpochSecond(timestamp/1000,0,ZoneOffset.ofHours(8))));
+    public static LocalDate timestampToLocalDate(Timestamp timestamp){
+        long time = timestamp.getTime();
+        return dateToLocalDate(localDateTimeToDate(LocalDateTime.ofEpochSecond(time/1000,0,ZoneOffset.ofHours(8))));
     }
 
 
@@ -246,13 +337,13 @@ public class DateUtils {
      * @author: linCheng
      * @Date: 2021/10/22 17:16
      * @param: localDateTime
-     * @Return: java.lang.Long
+     * @Return: java.sql.Timestamp
      */
-    public static Long localDateToTimestamp(LocalDateTime localDateTime){
+    public static Timestamp localDateToTimestamp(LocalDateTime localDateTime){
         if(null == localDateTime){
             localDateTime = LocalDateTime.now();
         }
-        return Timestamp.valueOf(localDateTime).getTime();
+        return Timestamp.valueOf(localDateTime);
     }
 
 

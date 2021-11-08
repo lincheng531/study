@@ -1,3 +1,36 @@
+drop table if exists c_cust;
+
+create table c_cust
+(
+    CUST_ID   bigint(16) auto_increment comment '用户唯一标识'
+        primary key,
+    MOBILE    varchar(16)  null comment '手机号',
+    CUST_NAME varchar(64)  null comment '用户名称',
+    CUST_TYPE varchar(8)   null comment '用户类型',
+    PASSWORD  varchar(256) null comment '密码',
+    STATE     smallint(2)  null comment '状态;0为失效，1:为生效'
+);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (1, '15960322601', 'linCheng', '01', '123', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (2, '15960322601', '林城', '01', '@WSX2wsx', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (3, '15960322602', '顶替', '01', '135', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (4, '15960322603', '工', '01', '12', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (5, '15960322604', '人', '01', '235', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (6, '15960322605', '包', '01', '214', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (7, '15960322606', '主', '01', '1tqt', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (8, '15960322607', '感觉', '01', '235', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (9, '15960322608', '然后', '01', '1235', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (10, '15960322610', '推脱', '01', 'qwer', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (11, '15960322609', '你', '01', 'wer', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (12, '15960322611', '和', '01', 'rweh', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (13, '15960322612', '放', '01', 'eqr', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (14, '15960322613', '拉', '01', 'sdfw', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (15, '15960322615', '脸色', '01', 'asdg', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (16, '15960322614', '肠子', '01', 're', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (17, '15960322617', '欠妥', '01', 'qwe', 1);
+INSERT INTO study.c_cust (CUST_ID, MOBILE, CUST_NAME, CUST_TYPE, PASSWORD, STATE) VALUES (18, '15960322618', '主持人', '01', 'sdga', 1);
+
+
+
 drop table if exists study_mybatis_plus;
 create table study_mybatis_plus
 (
