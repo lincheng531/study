@@ -24,5 +24,6 @@
         <module>study-middleware</module>
         <module>study-mybatis</module>
         <module>study-mybatis-plus</module>
+        <module>study-security</module>
     </modules>
 </project>
