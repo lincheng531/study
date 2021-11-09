@@ -1,13 +1,9 @@
 package com.lincheng.study.security;
 
-import com.lincheng.study.common.utils.ThreadUtil;
-import com.lincheng.study.security.entity.Cust;
+import com.lincheng.study.common.utils.ThreadUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.Optional;
 
 @SpringBootTest
 public class StudySecurityApplicationTests {
@@ -25,7 +21,7 @@ public class StudySecurityApplicationTests {
 
     @Test
     public void test2() {
-        ThreadUtil.runInNewThreadByExecutors(()->{
+        ThreadUtils.runInNewThreadByExecutors(()->{
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {

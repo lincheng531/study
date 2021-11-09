@@ -8,7 +8,7 @@ import java.util.concurrent.*;
  * @author linCheng
  * @date 2021/5/28 11:00
  */
-public class ThreadUtil {
+public class ThreadUtils {
 
     private static ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("thread-call-runner-%d").build();
 
