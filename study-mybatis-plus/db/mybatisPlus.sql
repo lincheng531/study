@@ -71,3 +71,32 @@ INSERT INTO study.study_mybatis_plus_ar (ID, NAME, STUDY_AR, CREATE_TIME, MOBILE
 INSERT INTO study.study_mybatis_plus_ar (ID, NAME, STUDY_AR, CREATE_TIME, MOBILE, AGE, state) VALUES (13, '江山', null, '2021-11-03 23:35:29', null, 19, '1');
 
 
+create table sys_role
+(
+    ROLE_ID   bigint auto_increment comment '角色id'
+        primary key,
+    ROLE_CODE varchar(64) null comment '角色编码',
+    ROLE_NAME varchar(64) null comment '角色名称',
+    STATE     smallint(2) null comment '0:失效,1:生效'
+);
+INSERT INTO study.sys_role (ROLE_ID, ROLE_CODE, ROLE_NAME, STATE) VALUES (1, 'normal', '普通用户', 1);
+INSERT INTO study.sys_role (ROLE_ID, ROLE_CODE, ROLE_NAME, STATE) VALUES (3, 'admin', '管理员', 1);
+INSERT INTO study.sys_role (ROLE_ID, ROLE_CODE, ROLE_NAME, STATE) VALUES (4, 'superAdmin', '超级管理', 1);
+
+
+create table sys_user_role
+(
+    USER_ROLE_ID bigint auto_increment comment '角色信息关联主键'
+        primary key,
+    ROLE_ID      bigint      null comment '角色id',
+    CUST_ID      bigint      null comment '用户id',
+    STATE        smallint(2) null comment '0:失效,1:生效'
+);
+INSERT INTO study.sys_user_role (USER_ROLE_ID, ROLE_ID, CUST_ID, STATE) VALUES (1, 1, 2, 1);
+INSERT INTO study.sys_user_role (USER_ROLE_ID, ROLE_ID, CUST_ID, STATE) VALUES (2, 3, 2, 1);
+INSERT INTO study.sys_user_role (USER_ROLE_ID, ROLE_ID, CUST_ID, STATE) VALUES (3, 4, 2, 1);
+INSERT INTO study.sys_user_role (USER_ROLE_ID, ROLE_ID, CUST_ID, STATE) VALUES (4, 1, 1, 1);
+INSERT INTO study.sys_user_role (USER_ROLE_ID, ROLE_ID, CUST_ID, STATE) VALUES (5, 3, 1, 1);
+INSERT INTO study.sys_user_role (USER_ROLE_ID, ROLE_ID, CUST_ID, STATE) VALUES (6, 4, 1, 1);
+
+
