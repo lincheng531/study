@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -53,25 +54,18 @@ public class LoginServiceImpl implements ILoginService {
             throw new UsernameNotFoundException("用户不存在");
         }
 
-        //查询用户角色关系表
-        QueryWrapper<UserRoleEntity> queryUserRoleWrapper = new QueryWrapper<>();
-        queryUserRoleWrapper.eq("CUST_ID",custEntity.getCustId());
-        List<UserRoleEntity> userRoleEntities = userRoleMapper.selectList(queryUserRoleWrapper);
-
-        //获取角色id
-        List<Long> roleIds = userRoleEntities.stream().map(UserRoleEntity::getRoleId).collect(Collectors.toList());
-
-        //查询角色
-        QueryWrapper<RoleEntity> RoleEntityWrapper = new QueryWrapper<>();
-        RoleEntityWrapper.in("ROLE_ID",roleIds);
-        List<RoleEntity> roleEntities = roleMapper.selectList(RoleEntityWrapper);
-
         //配置权限
         List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-        roleEntities.forEach( RoleEntity -> {
-            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(RoleEntity.getRoleCode());
+        List<String> roleCodes = userRoleMapper.selectRoleCodesByCustId(custEntity.getCustId());
+        if (!CollectionUtils.isEmpty(roleCodes)) {
+            roleCodes.forEach(roleCode -> {
+                SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(roleCode);
+                authorities.add(simpleGrantedAuthority);
+            });
+        }else {
+            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("normal");
             authorities.add(simpleGrantedAuthority);
-        });
+        }
 
 
         String encode = passwordEncoder.encode(custEntity.getPassword());
