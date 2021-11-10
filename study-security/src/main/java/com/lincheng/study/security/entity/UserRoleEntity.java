@@ -1,6 +1,8 @@
 package com.lincheng.study.security.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -26,7 +28,7 @@ public class UserRoleEntity extends Model<UserRoleEntity> {
     /**
      * 角色信息关联主键
      */
-    @TableField("USER_ROLE_ID")
+    @TableId(value = "USER_ROLE_ID", type = IdType.AUTO)
     private Long userRoleId;
 
     /**
