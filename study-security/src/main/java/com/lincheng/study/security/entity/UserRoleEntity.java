@@ -45,7 +45,7 @@ public class UserRoleEntity extends Model<UserRoleEntity> {
      * 0:失效,1:生效
      */
     @TableField("STATE")
-    @TableLogic
+    @TableLogic(delval = "0",value = "1")
     private Integer state;
 
 

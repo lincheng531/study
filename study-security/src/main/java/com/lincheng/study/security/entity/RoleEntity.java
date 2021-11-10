@@ -1,9 +1,6 @@
 package com.lincheng.study.security.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 import lombok.Getter;
@@ -45,8 +42,9 @@ public class RoleEntity extends Model<RoleEntity> {
     /**
      * 0:失效,1:生效
      */
-    @TableField("SATTE")
-    private Integer satte;
+    @TableField("STATE")
+    @TableLogic(delval = "0",value = "1")
+    private Integer state;
 
 
     @Override

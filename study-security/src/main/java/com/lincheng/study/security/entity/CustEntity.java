@@ -59,7 +59,7 @@ public class CustEntity extends Model<CustEntity> {
      * 状态;0为失效，1:为生效
      */
     @TableField("STATE")
-    @TableLogic
+    @TableLogic(delval = "0",value = "1")
     private Integer state;
 
 
