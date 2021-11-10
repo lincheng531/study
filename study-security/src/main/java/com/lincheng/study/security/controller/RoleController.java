@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-11-10
  */
 @RestController
-@RequestMapping("/security/cust-entity")
-public class CustController {
+@RequestMapping("/security/role-entity")
+public class RoleController {
 
 }

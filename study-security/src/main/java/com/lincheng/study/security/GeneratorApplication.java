@@ -20,8 +20,8 @@ public class GeneratorApplication {
 
         List<String> tables = new ArrayList<>();
         tables.add("c_cust");
-        //tables.add("p_question");
-        //tables.add("p_answer");
+        tables.add("sys_role");
+        tables.add("sys_user_role");
         //tables.add("p_correct");
 
         FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/study?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai","root","123456")
@@ -46,14 +46,15 @@ public class GeneratorApplication {
                 })
                 .strategyConfig(builder -> {
                     builder.addInclude(tables)//配置要生成的表名，为一个集合
-                            .addTablePrefix("c_")//过滤前缀。可以同时过滤多个，如：("t_", "c_");
+                            .addTablePrefix("c_", "sys_")//过滤前缀。可以同时过滤多个，如：("t_", "c_");
                             .serviceBuilder()
                             .formatServiceFileName("I%sService")//service类名，%s适配，根据表名替换
                             .formatServiceImplFileName("%sServiceImpl")//sServiceImpl类名，%s适配，根据表名替换
                             .entityBuilder()
-                            .enableActiveRecord()//
+                            .formatFileName("%sEntity")
+                            .enableActiveRecord()//开启 ActiveRecord 模型
                             .enableLombok()//开启lombok
-                            .logicDeleteColumnName("STATE")//说明逻辑删除是哪个字段
+                            .logicDeleteColumnName("STATE")//说明逻辑删除是哪个字段(数据库)
                             .enableTableFieldAnnotation()//属性加上,说明注解
                             .controllerBuilder()
                             .formatFileName("%sController")//sController类名，%s适配，根据表名替换

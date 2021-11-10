@@ -1,6 +1,6 @@
 package com.lincheng.study.security.mapper;
 
-import com.lincheng.study.security.entity.CustEntity;
+import com.lincheng.study.security.entity.RoleEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2021-11-10
  */
 @Mapper
-public interface CustMapper extends BaseMapper<CustEntity> {
+public interface RoleMapper extends BaseMapper<RoleEntity> {
 
 }
