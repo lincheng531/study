@@ -25,15 +25,29 @@ public class StudyRedisApplicationTests {
 
     @Test
     public void string() {
-        RBucket<Object> bucket = redissonClient.getBucket("name", StringCodec.INSTANCE);
+        RBucket<Object> bucket = redissonClient.getBucket("name:1", StringCodec.INSTANCE);
         Object o = bucket.get();
         System.out.println(o);
 
-        RBucket<Object> result = redissonClient.getBucket("studySetString", StringCodec.INSTANCE);
+        RBucket<Object> result = redissonClient.getBucket("name:1", StringCodec.INSTANCE);
         result.set("哈哈哈");
     }
 
+    @Test
+    public void string2() {
+        RBucket<Object> result = redissonClient.getBucket("name:2", StringCodec.INSTANCE);
+        result.set("哈哈哈2222");
 
+        RBucket<Object> result2 = redissonClient.getBucket("name:1", StringCodec.INSTANCE);
+        result2.set("1111111111");
+    }
+
+    @Test
+    public void stringDelete() {
+        RKeys keys = redissonClient.getKeys();
+        long deletedKeysAmount = keys.deleteByPattern("name:*");
+        System.out.println(deletedKeysAmount);
+    }
 
 
     @Test
