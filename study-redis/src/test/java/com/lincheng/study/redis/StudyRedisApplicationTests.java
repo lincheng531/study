@@ -1,4 +1,4 @@
-package com.lincheng.redis.redis;
+package com.lincheng.study.redis;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.poi.ss.formula.functions.T;

@@ -1,4 +1,4 @@
-package com.lincheng.redis.redis.config;
+package com.lincheng.study.redis.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
