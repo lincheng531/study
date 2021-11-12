@@ -1,3 +1,2 @@
 server:
-  port: 99011
-
+  port: 8082
