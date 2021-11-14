@@ -67,6 +67,14 @@ public class LoginServiceImpl implements ILoginService {
             authorities.add(simpleGrantedAuthority);
         }
 
+        //手动加角色编码
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_authorityRole");
+        authorities.add(simpleGrantedAuthority);
+
+        //手动加请求路径
+        SimpleGrantedAuthority simpleGrantedAuthority1 = new SimpleGrantedAuthority("/main.html");
+        authorities.add(simpleGrantedAuthority1);
+
 
         String encode = passwordEncoder.encode(custEntity.getPassword());
 

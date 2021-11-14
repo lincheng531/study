@@ -6,6 +6,10 @@ spring:
     password: 123456
     url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
+  #所有的请求都要带上前缀 /xxxx ,如请求：
+  #mvc:
+    #servlet:
+      #path: /xxxx
 
 
 #mybatis-plus sql执行日志
