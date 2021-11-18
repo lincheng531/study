@@ -10,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Resource;
+import javax.sound.midi.MidiUnavailableException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
@@ -114,9 +117,29 @@ public class StudyRedisApplicationTests {
 
 
 
+    /**
+     * 获取队列
+     *
+     * @param redisson
+     * @param objectName
+     * @return
+     */
+    public <V> RQueue<V> getRQueue(RedissonClient redisson, String objectName) {
+        RQueue<V> rQueue = redisson.getQueue(objectName);
+        return rQueue;
+    }
 
-
-
+    /**
+     * 获取双端队列
+     *
+     * @param redisson
+     * @param objectName
+     * @return
+     */
+    public <V> RDeque<V> getRDeque(RedissonClient redisson, String objectName) {
+        RDeque<V> rDeque = redisson.getDeque(objectName);
+        return rDeque;
+    }
 
 }
 
