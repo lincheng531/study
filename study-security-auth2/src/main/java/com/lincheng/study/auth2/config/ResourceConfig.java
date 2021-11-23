@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 /**
+ * 资源服务器配置类
  * @author lincheng5
  * @date 2021/11/14 23:48
  */

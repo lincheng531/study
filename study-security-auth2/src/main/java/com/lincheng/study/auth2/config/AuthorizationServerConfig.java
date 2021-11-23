@@ -1,15 +1,22 @@
 package com.lincheng.study.auth2.config;
 
+import com.lincheng.study.auth2.service.interfaces.ILoginService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import javax.annotation.Resource;
 
 /**
  * @Description: 授权服务器配置类
+ *      http://localhost:8080/oauth/authorize?response_type=code&client_id=admin&redirect_uri=https://www.baidu.com&scope=all
  * @author lincheng5
  * @date 2021/11/14 23:39
  */
@@ -20,7 +27,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Resource
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private ILoginService loginService;
+
+    @Resource
+    @Qualifier("redisTokenStore")
+    private TokenStore tokenStore;
+
+
+    //授权码模式
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
@@ -32,8 +50,23 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .redirectUris("https://www.baidu.com")
                 //授权范围
                 .scopes("all")
-                //授权类型
-                .authorizedGrantTypes("authorization_code")
+                //授权类型 authorization_code 授权码模式
+                .authorizedGrantTypes("authorization_code","password")
+        ;
+
+    }
+
+
+    //密码模式
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints
+                //自定义登录逻辑
+                .userDetailsService(loginService)
+                //授权管理器
+                .authenticationManager(authenticationManager)
+                //令牌存储位置
+                .tokenStore(tokenStore)
         ;
 
     }
