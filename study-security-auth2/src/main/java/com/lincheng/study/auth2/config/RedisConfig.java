@@ -19,7 +19,7 @@ public class RedisConfig {
     @Resource
     private RedisConnectionFactory redisConnectionFactory;
 
-    @Bean
+    //@Bean
     public TokenStore redisTokenStore(){
         return new RedisTokenStore(redisConnectionFactory);
     }
