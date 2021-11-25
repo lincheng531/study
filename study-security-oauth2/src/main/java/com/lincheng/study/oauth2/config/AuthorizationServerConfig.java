@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -77,6 +78,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
 
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        security.tokenKeyAccess("isAuthenticated()");
+    }
+
     //授权码模式
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -90,12 +96,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 //刷新令牌失效时间
                 .refreshTokenValiditySeconds(184000)
                 //重定向地址，获取授权码
-                .redirectUris("https://www.baidu.com")
+                .redirectUris("http://localhost:9881/login")
                 //授权范围
                 .scopes("all")
+                //自动授权
+                .autoApprove(true)
                 //授权类型 authorization_code 授权码模式
                 .authorizedGrantTypes("authorization_code","password","refresh_token")
         ;
 
     }
+
+
 }
