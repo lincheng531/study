@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class LockController {
 
 
+    @RequestMapping(value = "/testUtil")
+    public Object testUtil() throws Exception{
+        Object age = RedissonUtils.getString("age");
+       return age;
+    }
+
+
     //不加锁的情况
     @RequestMapping(value = "/noRedission", method = RequestMethod.POST)
     public String testNoRedission() throws Exception{
