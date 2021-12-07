@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/mybatis")
@@ -22,8 +23,17 @@ public class CustController {
 
     @RequestMapping("/insert")
     private Object insert(@RequestBody CCust cCust){
-        cCustMapper.insert(cCust);
-        return cCust;
+
+
+        return Optional.ofNullable(cCust.getCustId()).map(e -> {
+            cCust.setCustName("update");
+            cCustMapper.updateByPrimaryKey(cCust);
+            return cCust;
+        }).orElseGet(() -> {
+            cCust.setCustName("insert");
+            cCustMapper.insert(cCust);
+            return cCust;
+        });
     }
 
 
