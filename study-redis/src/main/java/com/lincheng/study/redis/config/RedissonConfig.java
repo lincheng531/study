@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @description:
+ * @description: 这个配置也可以放在common中，但是包路径要一样，spring boot在启动时才能自己把配置加载进来。
  * @author: linCheng
  * @create: 2021-11-12 14:49
  **/
