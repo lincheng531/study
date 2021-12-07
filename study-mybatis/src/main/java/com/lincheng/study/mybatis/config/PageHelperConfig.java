@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
-@Configuration
+//@Configuration
 public class PageHelperConfig {
     @Bean
     public PageHelper getPageHelper(){
@@ -16,6 +16,7 @@ public class PageHelperConfig {
         properties.setProperty("reasonable","true");
         properties.setProperty("supportMethodsArguments","true");
         properties.setProperty("params","count=countSql");
+        properties.setProperty("page-size-zero","true");
         pageHelper.setProperties(properties);
         return pageHelper;
     }
