@@ -19,7 +19,7 @@ public class GeneratorApplication {
     public static void main(String[] args) {
 
         List<String> tables = new ArrayList<>();
-        tables.add("c_cust");
+        tables.add("c_test_date");
         //tables.add("p_question");
         //tables.add("p_answer");
         //tables.add("p_correct");
