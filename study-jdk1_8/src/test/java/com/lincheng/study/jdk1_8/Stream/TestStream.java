@@ -35,6 +35,11 @@ public class TestStream {
         userList.forEach(user -> System.out.println(JSON.toJSONString(user)));
     }
 
+    @Test
+    public void testListObjectToListString(){
+        List<String> ids = userList.stream().map(User::getName).collect(Collectors.toList());
+    }
+
 
     @Test
     public void testSorted(){
