@@ -1,10 +1,12 @@
 package com.lincheng.study.jdk1_8.Stream;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.lincheng.study.jdk1_8.domain.Employee;
 import com.lincheng.study.jdk1_8.domain.User;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -194,6 +196,7 @@ public class TestStream {
 
         List<Employee> emps = Arrays.asList(
                 new Employee("张三", 18, 9999.9,2),
+                new Employee("张三", 18, 9999.9,2),
                 new Employee("李四", 22, 6666.9,1),
                 new Employee("王五", 23, 8888.9,1),
                 new Employee("赵六", 26, 7777.9,1),
@@ -227,6 +230,9 @@ public class TestStream {
 
         // 最大值、最小值，也可以收集
         // 举一反三。。。略
+
+        Map<String, Employee> mapKeyValue = emps.stream().collect(Collectors.toMap(Employee::getName, a -> a, (k1, k2) -> k1));
+        System.out.println(JSON.toJSONString(mapKeyValue));
 
         // 一级分组
         Map<Integer, List<Employee>> map = emps.stream()
@@ -310,5 +316,53 @@ public class TestStream {
 
     }
 
+
+    @Test
+    public void testBigDecimal() {
+        BigDecimal bignum1 = new BigDecimal("10");
+        BigDecimal bignum2 = new BigDecimal("5");
+        BigDecimal bignum3 = null;
+
+        //加法
+        bignum3 = bignum1.add(bignum2);
+        System.out.println("和 是：" + bignum3);
+
+        //减法
+        bignum3 = bignum1.subtract(bignum2);
+        System.out.println("差  是：" + bignum3);
+
+        //乘法
+        bignum3 = bignum1.multiply(bignum2);
+        System.out.println("积  是：" + bignum3);
+
+        //除法
+        bignum3 = bignum1.divide(bignum2);
+        System.out.println("商  是：" + bignum3);
+
+
+        BigDecimal a = new BigDecimal("0");
+        BigDecimal b = new BigDecimal("0.0");
+        //前提为a、b均不能为null
+        if(a.compareTo(b) == -1){
+            System.out.println("a小于b");
+        }
+
+        if(a.compareTo(b) == 0){
+            System.out.println("a等于b");
+        }
+
+        if(a.compareTo(b) == 1){
+            System.out.println("a大于b");
+        }
+
+        if(a.compareTo(b) > -1){
+            System.out.println("a大于等于b");
+        }
+
+        if(a.compareTo(b) < 1){
+            System.out.println("a小于等于b");
+        }
+
+    }
 
 }

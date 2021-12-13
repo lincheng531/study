@@ -80,7 +80,6 @@ public class TestLambda {
      * @author: linCheng
      * @description:  函数式接口
      * @date: 2021/3/10 14:16
-     * @param null
      * @return
      */
     @Test
