@@ -231,8 +231,12 @@ public class TestStream {
         // 最大值、最小值，也可以收集
         // 举一反三。。。略
 
-        Map<String, Employee> mapKeyValue = emps.stream().collect(Collectors.toMap(Employee::getName, a -> a, (k1, k2) -> k1));
+        Map<String, Integer> mapKeyValue = emps.stream().collect(Collectors.toMap(Employee :: getName, Employee :: getAge, (value1, value2 )-> value2));
         System.out.println(JSON.toJSONString(mapKeyValue));
+
+
+        Map<String, Employee> mapKeyObject = emps.stream().collect(Collectors.toMap(Employee::getName, a -> a, (k1, k2) -> k1));
+        System.out.println(JSON.toJSONString(mapKeyObject));
 
         // 一级分组
         Map<Integer, List<Employee>> map = emps.stream()
