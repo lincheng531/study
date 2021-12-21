@@ -188,20 +188,33 @@ public class TestStream {
 
     @Test
     public void testCollect() {
+
+
+        List<Employee> emps = Arrays.asList(
+                new Employee(1,"张三", 18, 1.0,2),
+                new Employee(1,"张三", 18, 2.0,2),
+                new Employee(1,"张三", 18, 3.0,2),
+                new Employee(2,"李四", 22, 6666.9,1),
+                new Employee(3,"王五", 23, 8888.9,1),
+                new Employee(4,"赵六", 26, 7777.9,1),
+                new Employee(5,"田七", 20, 5555.9,1)
+        );
+
         // 使用Collectors.joining()拼接字符串
         Stream<String> stream = Stream.of("张三","李四","王五","赵六");
         String s = stream.collect(Collectors.joining("-", "(", ")"));
         System.out.println(s);
+        String s1 =  emps.stream().map(Employee::getName).collect(Collectors.joining(";"));
+        System.out.println(s1);
 
 
-        List<Employee> emps = Arrays.asList(
-                new Employee("张三", 18, 9999.9,2),
-                new Employee("张三", 18, 9999.9,2),
-                new Employee("李四", 22, 6666.9,1),
-                new Employee("王五", 23, 8888.9,1),
-                new Employee("赵六", 26, 7777.9,1),
-                new Employee("田七", 20, 5555.9,1)
-        );
+        List<Employee> employeeList = new ArrayList<>();
+        Map<Integer, List<Employee>> checkMap = emps.stream().collect(Collectors.groupingBy(Employee::getId));
+        checkMap.forEach((key,value)->{
+            value.stream().reduce((a,b) -> new Employee(a.getId(),a.getName(),a.getAge(),a.getSalary() + b.getSalary(),a.getStatus())).ifPresent(employeeList::add);
+        });
+        System.out.println(JSON.toJSONString(employeeList));
+
 
         // 拼接字符串
         // reduce也可以实现拼接字符串，自行尝试

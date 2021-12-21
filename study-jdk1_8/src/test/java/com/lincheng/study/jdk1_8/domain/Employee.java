@@ -2,6 +2,8 @@ package com.lincheng.study.jdk1_8.domain;
 
 public class Employee {
 
+    private Integer id;
+
     private String name;
 
     private Integer age;
@@ -31,6 +33,14 @@ public class Employee {
     }
 
     public Employee(String name, Integer age, Double salary, Integer status) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.status = status;
+    }
+
+    public Employee(Integer id, String name, Integer age, Double salary, Integer status) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.salary = salary;
@@ -67,6 +77,14 @@ public class Employee {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
