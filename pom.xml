@@ -28,5 +28,6 @@
         <module>study-security-oauth2</module>
         <module>study-security-sso</module>
         <module>study-redis</module>
+        <module>study-sentinel</module>
     </modules>
 </project>
