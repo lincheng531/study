@@ -50,6 +50,12 @@
             <version>1.8.2</version>
         </dependency>
 
+        <!--使用 @SentinelResource 需求加这个注解-->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-annotation-aspectj</artifactId>
+            <version>1.8.2</version>
+        </dependency>
 
     </dependencies>
 
