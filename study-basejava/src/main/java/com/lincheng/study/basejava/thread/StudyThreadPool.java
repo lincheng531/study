@@ -1,5 +1,13 @@
 package com.lincheng.study.basejava.thread;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
+import com.lincheng.study.common.domain.alioss.vo.OssFileBusinessVO;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -37,7 +45,8 @@ public class StudyThreadPool {
 
      */
     public static void main(String[] args) {
-        testNewFixedThreadPool();
+        //testNewFixedThreadPool();
+        testThreadPoolExecutor();
     }
 
 
@@ -78,6 +87,41 @@ public class StudyThreadPool {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
         //手动创建
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 10, 0, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),new ThreadPoolExecutor.CallerRunsPolicy());
+    }
+
+
+    private static void testThreadPoolExecutor() {
+
+        List<String> testList = Arrays.asList("a","b","c");
+        List<OssFileBusinessVO> ossFileBusinessVOS = new ArrayList<>();
+        int size = testList.size();
+
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 10, 0, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),new ThreadPoolExecutor.CallerRunsPolicy());
+        final List<Future<OssFileBusinessVO>> futureList = Lists.newArrayListWithCapacity( size );
+        for(final String string : testList){
+            futureList.add( threadPoolExecutor.submit(() -> getSettlement(string)));
+        }
+
+        futureList.forEach(e -> {
+            try {
+                OssFileBusinessVO ossFileBusinessVO = e.get();
+                ossFileBusinessVOS.add(ossFileBusinessVO);
+            } catch (InterruptedException | ExecutionException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        System.out.println(JSON.toJSONString(ossFileBusinessVOS));
+
+    }
+
+
+    private static OssFileBusinessVO getSettlement(String string){
+        System.out.println("线程名称:" + Thread.currentThread().getName());
+        OssFileBusinessVO ossFileBusinessVO = new OssFileBusinessVO();
+        ossFileBusinessVO.setRemark(string);
+        ossFileBusinessVO.setAddTime(new Date());
+        return ossFileBusinessVO;
     }
 
 }
