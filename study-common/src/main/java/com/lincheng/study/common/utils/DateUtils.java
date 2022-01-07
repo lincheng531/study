@@ -64,8 +64,9 @@ public class DateUtils {
      * @Return: java.util.Date
      */
     public static Date stringToDate(String date) {
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(YYYYMMDDHHMMSS));
-        return  localDateToDate(localDate);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(YYYYMMDDHHMMSS);
+        LocalDateTime localDateTime = LocalDateTime.parse(date, dateTimeFormatter);
+        return localDateTimeToDate(localDateTime);
     }
 
 
@@ -78,12 +79,8 @@ public class DateUtils {
      * @Return: java.util.Date
      */
     public static Date stringToDate(String date, String pattern) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(pattern));
-        return  localDateToDate(localDate);
-
-        //LocalDateTime localDateTime = LocalDateTime.parse(date, dateTimeFormatter);
-        //return localDateTimeToDate(localDateTime);
+        return localDateToDate(localDate);
     }
 
 
@@ -299,7 +296,8 @@ public class DateUtils {
      * @Return: java.time.LocalDateTime
      */
     public static LocalDateTime stringToLocalDateTime(String date, String pattern) {
-        return LocalDateTime.parse(date, DateTimeFormatter.ofPattern(pattern));
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(pattern));
+        return localDateToLocalDateTime(localDate);
     }
 
 
@@ -341,7 +339,7 @@ public class DateUtils {
      * @param: pattern
      * @Return: java.time.LocalDate
      */
-    public static LocalDate stringToLocalDate(String date ,String pattern) {
+    public static LocalDate stringToLocalDate(String date, String pattern) {
         return LocalDate.parse(date, DateTimeFormatter.ofPattern(pattern));
     }
 
@@ -353,7 +351,7 @@ public class DateUtils {
      * @param: pattern
      * @Return: java.lang.String
      */
-    public static String localDateToString(LocalDate date ,String pattern) {
+    public static String localDateToString(LocalDate date, String pattern) {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern(pattern);
         return date.format(fmt);
     }
@@ -379,9 +377,33 @@ public class DateUtils {
      * @param: localDate
      * @Return: java.sql.Timestamp
      */
-    public static Timestamp localDateToTimestamp(LocalDate localDate){
+    public static Timestamp localDateToTimestamp(LocalDate localDate) {
         long timestamp = localDate.atStartOfDay(ZoneOffset.ofHours(8)).toInstant().toEpochMilli();
         return new Timestamp(timestamp);
+    }
+
+
+    /**
+     * @Description: LocalDate To LocalDateTime
+     * @author: linCheng
+     * @Date: 2022/1/7 15:24
+     * @param: localDate
+     * @Return: java.time.LocalDateTime
+     */
+    public static LocalDateTime localDateToLocalDateTime(LocalDate localDate) {
+        return localDate.atTime(LocalTime.now());
+    }
+
+
+    /**
+     * @Description: LocalDateTime To LocalDate
+     * @author: linCheng
+     * @Date: 2022/1/7 15:24
+     * @param: localDateTime
+     * @Return: java.time.LocalDate
+     */
+    public static LocalDate localDateTimeToLocalDate(LocalDateTime localDateTime) {
+        return localDateTime.toLocalDate();
     }
 
 
