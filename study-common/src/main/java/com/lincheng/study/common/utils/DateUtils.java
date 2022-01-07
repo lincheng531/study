@@ -15,15 +15,15 @@ import java.util.Date;
  **/
 public class DateUtils {
 
-    private static String YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
+    public static final String YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
 
-    private static String YYYYMMDDHHMM = "yyyy-MM-dd HH:mm";
+    public static final String YYYYMMDDHHMM = "yyyy-MM-dd HH:mm";
 
-    private static String YYYYMMDDHH = "yyyy-MM-dd HH";
+    public static final String YYYYMMDDHH = "yyyy-MM-dd HH";
 
-    private static String YYYYMMDD = "yyyy-MM-dd";
+    public static final String YYYYMMDD = "yyyy-MM-dd";
 
-    private static String YYYYMM = "yyyy-MM";
+    public static final String YYYYMM = "yyyy-MM";
 
 
     /**
@@ -64,9 +64,8 @@ public class DateUtils {
      * @Return: java.util.Date
      */
     public static Date stringToDate(String date) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(YYYYMMDDHHMMSS);
-        LocalDateTime localDateTime = LocalDateTime.parse(date, dateTimeFormatter);
-        return localDateTimeToDate(localDateTime);
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(YYYYMMDDHHMMSS));
+        return  localDateToDate(localDate);
     }
 
 
@@ -80,8 +79,11 @@ public class DateUtils {
      */
     public static Date stringToDate(String date, String pattern) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
-        LocalDateTime localDateTime = LocalDateTime.parse(date, dateTimeFormatter);
-        return localDateTimeToDate(localDateTime);
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(pattern));
+        return  localDateToDate(localDate);
+
+        //LocalDateTime localDateTime = LocalDateTime.parse(date, dateTimeFormatter);
+        //return localDateTimeToDate(localDateTime);
     }
 
 
