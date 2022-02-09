@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * <p>
@@ -45,10 +47,23 @@ public class TestDateController {
 
 
     public static void main(String[] args) {
-        String reqBody2 = DateUtils.timestampToString(new Timestamp(1638937235000L));
-        String reqBody21 = DateUtils.timestampToString(new Timestamp(1638937237000L));
-        System.out.println(reqBody2);
-        System.out.println(reqBody21);
+        //String reqBody2 = DateUtils.timestampToString(new Timestamp(1638937235000L));
+        //String reqBody21 = DateUtils.timestampToString(new Timestamp(1638937237000L));
+        //System.out.println(reqBody2);
+        //System.out.println(reqBody21);
+
+        Timestamp timestamp = DateUtils.stringToTimestamp("2021-01-07", DateUtils.YYYYMMDD);
+        System.out.println(timestamp);
+
+        LocalDate localDate = DateUtils.stringToLocalDate("2021-01-07", DateUtils.YYYYMMDD);
+        long time = DateUtils.localDateToTimestamp(localDate).getTime();
+        long time1 = DateUtils.stringToTimestamp("2021-01-07 15:20:16", DateUtils.YYYYMMDDHHMMSS).getTime();
+        System.out.println(time);
+        System.out.println(time1);
+
+
+        String time2 = DateUtils.timestampToString(new Timestamp(1609948800000L));
+        System.out.println(time2);
 
     }
 }

@@ -42,10 +42,16 @@ public class TestDate extends Model<TestDate> {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @TableField("insert_date")
-    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date insertDate;
 
+    /**
+     * 数据库字段类型date
+     */
+    @TableField("insert_date")
+    private LocalDate insertDate;
+
+    /**
+     * 数据库字段类型datetime
+     */
     @TableField("update_date")
     private Timestamp updateDate;
 
