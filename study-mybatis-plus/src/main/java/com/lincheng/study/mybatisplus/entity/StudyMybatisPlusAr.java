@@ -10,7 +10,7 @@ import java.util.Date;
  * @author lincheng5
  * @date 2021/11/3 21:31
  */
-public class StudyMybatisPlusAr extends Model {
+public class StudyMybatisPlusAr extends Model<StudyMybatisPlusAr> {
 
     @TableId(type = IdType.AUTO)
     private Integer id;

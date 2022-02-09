@@ -3,6 +3,7 @@ package com.lincheng.study.mybatisplus;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lincheng.study.mybatisplus.entity.StudyMybatisPlus;
 import com.lincheng.study.mybatisplus.entity.StudyMybatisPlusAr;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -159,6 +161,39 @@ public class StudyMybatisPlusApplicationTests {
         System.out.println("总数 count："+result.getTotal());
         System.out.println("当前第几页："+result.getCurrent());
         System.out.println("每页大小："+result.getSize());
+    }
+
+
+
+    @Test
+    public void testUpdateList(){
+
+        List<StudyMybatisPlusAr> studyMybatisPlusArList = new ArrayList<>();
+
+        testListUpdate(studyMybatisPlusArList);
+    }
+
+    private void testListUpdate(List<StudyMybatisPlusAr> studyMybatisPlusArList){
+
+
+        List<StudyMybatisPlusAr> studyMybatisPlusArs = studyMybatisPlusArMapper.selectArByName("张三");
+
+        ArrayList<StudyMybatisPlusAr> old = new ArrayList<>(studyMybatisPlusArs);
+        studyMybatisPlusArs.forEach( studyMybatisPlusAr -> {
+            studyMybatisPlusArList.forEach(newAr ->{
+                if (studyMybatisPlusAr.getId().equals(newAr.getId())){
+                    old.remove(studyMybatisPlusAr);
+                }
+            });
+        });
+
+
+        //删除
+        old.forEach(Model::deleteById);
+
+        //保存
+        studyMybatisPlusArList.forEach(Model::insertOrUpdate);
+
     }
 
 
