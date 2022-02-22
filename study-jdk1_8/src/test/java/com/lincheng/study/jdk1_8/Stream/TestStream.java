@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.lincheng.study.jdk1_8.domain.Employee;
 import com.lincheng.study.jdk1_8.domain.User;
 import org.junit.Test;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -89,6 +90,15 @@ public class TestStream {
         System.out.println("最大年龄：" + num.getMax());
         System.out.println("最小年龄：" + num.getMin());
         System.out.println("年龄之和：" + num.getSum());
+
+        //获取年龄最大的Person
+        User maxAgePerson = userList.stream().max(Comparator.comparing(User::getAge)).orElse(new User());
+        System.out.println(maxAgePerson);
+        //获取年龄最小的Person
+        User minAgePerson = userList.stream().min(Comparator.comparing(User::getAge)).orElse(new User());
+        System.out.println(minAgePerson);
+
+
     }
 
 

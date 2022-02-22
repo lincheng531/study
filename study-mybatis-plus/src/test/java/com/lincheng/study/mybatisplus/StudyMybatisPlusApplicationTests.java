@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lincheng.study.common.utils.DateUtils;
 import com.lincheng.study.mybatisplus.entity.StudyMybatisPlus;
 import com.lincheng.study.mybatisplus.entity.StudyMybatisPlusAr;
 import com.lincheng.study.mybatisplus.mapper.StudyMybatisPlusArMapper;
@@ -67,6 +68,18 @@ public class StudyMybatisPlusApplicationTests {
 
 
     @Test
+    public void insert(){
+        StudyMybatisPlusAr studyMybatisPlusAr = new StudyMybatisPlusAr();
+        //studyMybatisPlusAr.setId(1);
+        studyMybatisPlusAr.setCreateTime(new Date());
+        studyMybatisPlusAr.setMobile("1586600");
+        studyMybatisPlusAr.setStudyAr("");
+        studyMybatisPlusAr.setName("张四");
+        studyMybatisPlusArMapper.insert(studyMybatisPlusAr);
+    }
+
+
+    @Test
     public void testMapper(){
         List<StudyMybatisPlusAr> studyMybatisPlusArs = studyMybatisPlusArMapper.selectArByName("张三");
         System.out.println(studyMybatisPlusArs);
@@ -78,15 +91,6 @@ public class StudyMybatisPlusApplicationTests {
     @Test
     public void testQueryWrapperAllEq(){
 
-
-        QueryWrapper<StudyMybatisPlusAr> queryWrapper = new QueryWrapper<>();
-        Map<String,Object> map = new HashMap<>();
-        map.put("STUDY_AR","学习一下哈哈哈");
-        queryWrapper.allEq(map);
-        //null2IsNull : 为true则在map的value为null时调用 isNull 方法,为false时则忽略
-        //queryWrapper.allEq(map,false);
-        List<StudyMybatisPlusAr> studyMybatisPlusArs = studyMybatisPlusArMapper.selectList(queryWrapper);
-        System.out.println(JSON.toJSONString(studyMybatisPlusArs));
     }
 
 
@@ -149,9 +153,9 @@ public class StudyMybatisPlusApplicationTests {
     public void testPageByCustom(){
         Page<StudyMybatisPlusAr> page = new Page<>();
         //第几页
-        page.setCurrent(2);
+       //page.setCurrent(0);
         //每页大小
-        page.setSize(3);
+       page.setSize(0);
 
         IPage<StudyMybatisPlusAr> result = studyMybatisPlusArMapper.selectArByState(page, "1");
 

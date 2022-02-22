@@ -61,6 +61,8 @@ public class TestDate extends Model<TestDate> {
     @TableField("select_date")
     private LocalDate selectDate;
 
+    @TableField("test_date")
+    private Timestamp testDate;
 
     @Override
     public Serializable pkVal() {

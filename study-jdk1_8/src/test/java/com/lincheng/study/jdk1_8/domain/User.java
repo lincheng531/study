@@ -10,6 +10,10 @@ public class User {
 
     private int age;
 
+    public User() {
+
+    }
+
     public String getName() {
         return name;
     }
