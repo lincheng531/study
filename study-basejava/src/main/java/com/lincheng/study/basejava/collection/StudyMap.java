@@ -1,5 +1,6 @@
 package com.lincheng.study.basejava.collection;
 
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -40,5 +41,12 @@ public class StudyMap {
     public static void testConcurrentHashMap(){
         ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
         concurrentHashMap.put("1","1");
+    }
+
+
+    public static void testHashMap(){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("1","1");
+
     }
 }
