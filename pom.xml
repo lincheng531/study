@@ -29,5 +29,6 @@
         <module>study-security-sso</module>
         <module>study-redis</module>
         <module>study-sentinel</module>
+        <module>study-quartz</module>
     </modules>
 </project>
