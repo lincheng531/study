@@ -1,4 +1,4 @@
-package com.lincheng.study.quartz.controller;
+package com.lincheng.study.quartz.test;
 
 import com.lincheng.study.common.utils.DateUtils;
 
