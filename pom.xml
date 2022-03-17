@@ -30,5 +30,6 @@
         <module>study-redis</module>
         <module>study-sentinel</module>
         <module>study-quartz</module>
+        <module>study-quartz-schedule</module>
     </modules>
 </project>
