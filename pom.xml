@@ -31,5 +31,6 @@
         <module>study-sentinel</module>
         <module>study-quartz</module>
         <module>study-quartz-schedule</module>
+        <module>study-activiti</module>
     </modules>
 </project>
