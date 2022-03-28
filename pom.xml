@@ -32,5 +32,6 @@
         <module>study-quartz</module>
         <module>study-quartz-schedule</module>
         <module>study-activiti</module>
+        <module>study-session</module>
     </modules>
 </project>
