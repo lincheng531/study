@@ -378,7 +378,7 @@ public class TestStream {
             System.out.println("a等于b");
         }
 
-        if(a.compareTo(b) == 1){
+        if(a.compareTo(b) > 0){
             System.out.println("a大于b");
         }
 
