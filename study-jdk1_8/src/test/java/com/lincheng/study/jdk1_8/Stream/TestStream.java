@@ -278,6 +278,13 @@ public class TestStream {
                 })));
         System.out.println(mapMap);
 
+
+        Map<Integer, Map<String, Employee>> collect = emps.stream().collect(Collectors.groupingBy(Employee::getAge, Collectors.toMap(Employee::getName, a -> a, (k1, k2) -> k1)));
+
+        emps.stream().collect(Collectors.groupingBy(Employee::getAge, Collectors.toMap(Employee::getName, a -> a, (k1, k2) -> k1)));
+        Map<Integer, Map<Integer, Map<String, Employee>>> collect2 = emps.stream().collect(Collectors.groupingBy(Employee::getAge, Collectors.groupingBy(Employee::getStatus, Collectors.toMap(Employee::getName, a -> a, (k1, k2) -> k1))));
+
+
         // 分区（分成两部分）
         Map<Boolean, List<Employee>> listMap = emps.stream()
                 .collect(Collectors.partitioningBy((e) -> e.getSalary() > 6000));

@@ -1,16 +1,27 @@
 package com.lincheng.study.middleware.controller;
 
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.alibaba.fastjson.JSON;
 import com.lincheng.study.common.domain.dubbo.vo.ProductVO;
 import com.lincheng.study.common.domain.middleware.excel.vo.EasyPoiDemoAchievementVO;
 import com.lincheng.study.common.domain.middleware.excel.vo.EasyPoiDemoVO;
 import com.lincheng.study.common.utils.EasyPoiUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,9 +31,57 @@ import java.util.List;
  * @author: linCheng
  * @create: 2021-10-12 15:08
  **/
+@Slf4j
 @RestController
 @RequestMapping("/easyPoi")
 public class ExcelController {
+
+
+    @RequestMapping(value = "/importCons")
+    public void importCons(@RequestParam("file") MultipartFile file, @RequestParam("rows")Integer rows ) throws IOException {
+        if (null==file){
+            System.out.println("null");
+        }
+        //根据file得到Workbook,主要是要根据这个对象获取,传过来的excel有几个sheet页
+        Workbook hssfWorkbook = getWorkBook(file);
+        //获取sheet数量
+        int sheetNum = hssfWorkbook.getNumberOfSheets();
+        ImportParams params = new ImportParams();
+        //表头在第几行
+        params.setTitleRows(rows);
+
+        try {
+            params.setStartSheetIndex(0);
+            List<ConsFrom> result = ExcelImportUtil.importExcel(file.getInputStream(), ConsFrom.class, params);
+            System.out.println(JSON.toJSONString(result));
+            params.setStartSheetIndex(1);
+            List<SwtichRoundLoadPowerFrom> result2 = ExcelImportUtil.importExcel(file.getInputStream(), SwtichRoundLoadPowerFrom.class, params);
+            System.out.println(JSON.toJSONString(result2));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取Excel中的sheet
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public static Workbook getWorkBook(MultipartFile file) throws IOException {
+        //这样写excel能兼容03和07
+        InputStream is = file.getInputStream();
+        Workbook hssfWorkbook = null;
+        try {
+            hssfWorkbook = new HSSFWorkbook(is);
+        } catch (Exception ex) {
+            is =file.getInputStream();
+            hssfWorkbook = new XSSFWorkbook(is);
+        }
+        return hssfWorkbook;
+    }
+
 
 
     @RequestMapping("/export")
@@ -74,6 +133,28 @@ public class ExcelController {
         System.out.println(JSON.toJSONString(easyPoiDemoVOS));
     }
 
+
+    @RequestMapping("/templateExport")
+    public String download(String fileName, String folder, HttpServletRequest request, HttpServletResponse response) {
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + "cons_template.xlsx");
+        try {
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("excel_template/cons_template.xlsx");
+            OutputStream os = response.getOutputStream();
+            byte[] b = new byte[2048];
+            int length;
+            while ((length = inputStream.read(b)) > 0) {
+                os.write(b, 0, length);
+            }
+            // 这里主要关闭。
+            os.close();
+            inputStream.close();
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
+    }
 
 
 }
