@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @description:
@@ -133,25 +134,36 @@ public class ExcelController {
         System.out.println(JSON.toJSONString(easyPoiDemoVOS));
     }
 
-
-    @RequestMapping("/templateExport")
-    public String download(String fileName, String folder, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/templateConsExport")
+    public String templateConsExport(HttpServletResponse response) {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName=" + "cons_template.xlsx");
+        InputStream inputStream = null;
+        OutputStream os = null;
         try {
-            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("excel_template/cons_template.xlsx");
-            OutputStream os = response.getOutputStream();
+            inputStream = this.getClass().getClassLoader().getResourceAsStream("excel_template/cons_template.xlsx");
+            os = response.getOutputStream();
             byte[] b = new byte[2048];
             int length;
             while ((length = inputStream.read(b)) > 0) {
                 os.write(b, 0, length);
             }
-            // 这里主要关闭。
-            os.close();
-            inputStream.close();
         } catch (IOException e) {
+            e.printStackTrace();
             log.error(e.getMessage(), e);
+        } finally {
+            try {
+                if (Optional.ofNullable(os).isPresent()){
+                    os.close();
+                }
+                if (Optional.ofNullable(inputStream).isPresent()){
+                    inputStream.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                log.error(e.getMessage(), e);
+            }
         }
         return null;
     }

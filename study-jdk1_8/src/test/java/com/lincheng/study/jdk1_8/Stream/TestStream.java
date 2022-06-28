@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -262,11 +264,10 @@ public class TestStream {
         System.out.println(JSON.toJSONString(mapKeyObject));
 
         // 一级分组
-        Map<Integer, List<Employee>> map = emps.stream()
-                .collect(Collectors.groupingBy(Employee::getStatus));
+        Map<Integer, List<Employee>> map = emps.stream().collect(Collectors.groupingBy(Employee::getStatus));
         System.out.println(map);
 
-        // 多级分组
+        // 二级分组
         Map<Integer, Map<String, List<Employee>>> mapMap = emps.stream()
                 .collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((e) -> {
                     // 返回值作为第二层Map的key
@@ -281,8 +282,12 @@ public class TestStream {
 
         Map<Integer, Map<String, Employee>> collect = emps.stream().collect(Collectors.groupingBy(Employee::getAge, Collectors.toMap(Employee::getName, a -> a, (k1, k2) -> k1)));
 
-        emps.stream().collect(Collectors.groupingBy(Employee::getAge, Collectors.toMap(Employee::getName, a -> a, (k1, k2) -> k1)));
+        // 三级分组
         Map<Integer, Map<Integer, Map<String, Employee>>> collect2 = emps.stream().collect(Collectors.groupingBy(Employee::getAge, Collectors.groupingBy(Employee::getStatus, Collectors.toMap(Employee::getName, a -> a, (k1, k2) -> k1))));
+
+        //集合根据一个字段去重
+        List<Employee> collect3 = emps.stream().filter(distinctByKey(Employee::getAge)).collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(collect3));
 
 
         // 分区（分成两部分）
@@ -399,4 +404,11 @@ public class TestStream {
 
     }
 
+
+
+    //去重
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return object -> seen.putIfAbsent(keyExtractor.apply(object), Boolean.TRUE) == null;
+    }
 }
