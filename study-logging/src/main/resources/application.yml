@@ -1,0 +1,20 @@
+#springBoot默认使用的日志框架slf4j+logback
+logging:
+  config: classpath:logback-config.xml
+  dev:
+    level: debug
+  test:
+    level: info
+  prod:
+    level: error
+  home: /app/lincheng/logs/study/logging
+  file:
+    name: study-logging
+    max-size: 100MB
+    max-history: 30
+
+spring:
+  application:
+    name: study-logging
+  profiles:
+    active: dev

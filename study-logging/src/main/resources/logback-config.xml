@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+	<!--从配置中心获取属性配置通过以下方法， <springProperty scope="context" name="logName" source="logging.file"
+		/> 其中name为代号，source为配置中心配置的value,在下面配置中用${logname}获取value -->
+	<springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+	<springProperty scope="context" name="logName" source="logging.file.name" defaultValue="study-log"/>
+	<springProperty scope="context" name="LOG_HOME" source="logging.home" defaultValue="${java.io.tmpdir}"/>
+	<springProperty scope="context" name="maxHistory" source="logging.file.max-history" defaultValue="6"/>
+	<springProperty scope="context" name="maxFileSize" source="logging.file.max-size" defaultValue="10MB"/>
+	<springProperty scope="context" name="prodLevel" source="logging.prod.level" defaultValue="error"/>
+	<springProperty scope="context" name="testLevel" source="logging.test.level" defaultValue="info"/>
+	<springProperty scope="context" name="devLevel" source="logging.dev.level" defaultValue="debug"/>
+
+
+
+	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+	<!-- 日志输出格式 -->
+	<!-- 日志输出格式： %d: 表示日期时间， %5p: 级别从左显示5个字符宽度， ${PID:- }: pid %15.20t: 线程名字(如果宽度不足15，左侧补空白；如果宽度超过20，从左侧截断)
+		%logger{50}: 表示logger名字最长50个字符，否则按照句点分割 %%-4L: 行号，保留后面四位字符宽度 %m: 日志消息 %n:
+		换行符 ${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}: -->
+	<property name="consoleLayoutPattern" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.20t]){faint} %clr(%-40.90logger{100} Line:%-4L){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+	<property name="fileLayoutPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%15.20t] %-40.90logger{100} Line:%-4L : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+
+	<!-- 控制台输出 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<charset>UTF-8</charset>
+			<pattern>${consoleLayoutPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 按照每天生成日志文件 -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日志文件输出的文件名 -->
+			<FileNamePattern>${LOG_HOME}/${logName}.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!--日志文件保留天数 -->
+			<MaxHistory>${maxHistory}</MaxHistory>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<charset>UTF-8</charset>
+			<pattern>${fileLayoutPattern}</pattern>
+		</encoder>
+		<!--日志文件最大的大小 -->
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>${maxFileSize}</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+	<!-- <fileNamePattern>${logRoot}/${logModule}/errorLog/%d{yyyy-MM-dd}.log.zip</fileNamePattern> -->
+	<appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_HOME}/${logName}.error-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${maxFileSize}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>${maxHistory}</maxHistory><!-- days -->
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<charset>UTF-8</charset>
+			<pattern>${fileLayoutPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 生产环境生效(级别，切换环境可在配置中心进行配置) springProfile = spring.profiles.active-->
+	<springProfile name="prod">
+		<root level="${prodLevel}">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="FILE" />
+			<appender-ref ref="ERROR" />
+		</root>
+	</springProfile>
+
+	<!-- 开发环境-->
+	<springProfile name="dev">
+		<!-- 日志输出级别 -->
+		<root level="${devLevel}">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="FILE" />
+			<appender-ref ref="ERROR" />
+		</root>
+	</springProfile>
+
+	<!-- 测试环境 -->
+	<springProfile name="test">
+		<!-- 日志输出级别 -->
+		<root level="${testLevel}">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="FILE" />
+			<appender-ref ref="ERROR" />
+		</root>
+	</springProfile>
+
+	<!-- 自定义包下设置级别 (使用时可自行定义)，如需多个自定义包，请用多个logger标签-->
+	<logger name="com.alibaba.nacos.client.naming" level="error">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="ERROR" />
+	</logger>
+
+</configuration>

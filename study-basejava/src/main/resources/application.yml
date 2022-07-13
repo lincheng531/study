@@ -6,3 +6,11 @@
 #    - list2
 #  dog:
 #    name: 发财
+
+spring:
+  profiles:
+    active: dev
+server:
+  port: 8881
+#控制台打印自动配置报告
+#debug: true
