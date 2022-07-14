@@ -1,8 +1,6 @@
 package com.lincheng.study.basejava.springboot;
 
-import com.alibaba.fastjson.JSON;
 import com.lincheng.study.basejava.vo.Proson;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.PropertySource;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Random;
 
 /**
  * @description:
@@ -25,6 +22,10 @@ public class SpringbootTest {
     @Resource
     private ApplicationContext applicationContext;
 
+    @Resource
+    private AsyncService asyncService;
+
+
     @Value("${person.dog.name}")
     private String dogName;
 
@@ -38,12 +39,12 @@ public class SpringbootTest {
     private Proson proson;
 
     @RequestMapping("/test1")
-    public Proson test1(){
+    public Proson test1() {
         return proson;
     }
 
     @RequestMapping("/test2")
-    public String test2(){
+    public String test2() {
         System.out.println(dogName);
         System.out.println(falg);
         System.out.println(sum);
@@ -52,10 +53,16 @@ public class SpringbootTest {
 
 
     @RequestMapping("/test3")
-    public boolean test3(){
-       return applicationContext.containsBean("getSpringBootServiceTest");
+    public boolean test3() {
+        return applicationContext.containsBean("getSpringBootServiceTest");
     }
 
+
+    @RequestMapping("/test4")
+    public String test4() throws InterruptedException {
+        asyncService.async();
+        return "success";
+    }
 
 
 }
