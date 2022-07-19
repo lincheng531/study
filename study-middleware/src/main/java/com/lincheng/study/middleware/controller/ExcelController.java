@@ -22,10 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * @description:
@@ -36,6 +34,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/easyPoi")
 public class ExcelController {
+
+
+
+
+
+
+
+
 
 
     @RequestMapping(value = "/importCons")
@@ -55,6 +61,8 @@ public class ExcelController {
             params.setStartSheetIndex(0);
             List<ConsFrom> result = ExcelImportUtil.importExcel(file.getInputStream(), ConsFrom.class, params);
             System.out.println(JSON.toJSONString(result));
+
+
             params.setStartSheetIndex(1);
             List<SwtichRoundLoadPowerFrom> result2 = ExcelImportUtil.importExcel(file.getInputStream(), SwtichRoundLoadPowerFrom.class, params);
             System.out.println(JSON.toJSONString(result2));
@@ -122,6 +130,43 @@ public class ExcelController {
         EasyPoiUtils.exportExcel(easyPoiDemoVOList, "easypoi导出功能(用户表)", "导出sheet1", EasyPoiDemoVO.class, "测试Users.xls", response);
 
     }
+
+    @RequestMapping("/export")
+    public void exportBySheet(HttpServletResponse response) {
+
+        List<Map<String, Object>> exportParamList = new ArrayList<>();
+
+
+        List<EasyPoiDemoVO> easyPoiDemoVOList = new ArrayList<>();
+        EasyPoiDemoVO easyPoiDemoVO2 = new EasyPoiDemoVO();
+        easyPoiDemoVO2.setId(2);
+        easyPoiDemoVO2.setBirthday(new Date());
+        easyPoiDemoVO2.setName("王五");
+        easyPoiDemoVO2.setRegistrationDate("2021-10-13 22:17:06");
+        easyPoiDemoVO2.setSex("2");
+        easyPoiDemoVO2.setAge(7L);
+        easyPoiDemoVO2.setNation("苗族");
+        easyPoiDemoVOList.add(easyPoiDemoVO2);
+
+        Map<String, Object> easyPoiDemoMap = EasyPoiUtils.setExportParams("easypoi导出功能(easyPoiDemoVOList用户表)", "导出sheet1的名称", EasyPoiDemoVO.class, easyPoiDemoVOList);
+        exportParamList.add(easyPoiDemoMap);
+
+
+        List<ConsFrom> consFromList = new ArrayList<>();
+        ConsFrom consFrom = new ConsFrom();
+        consFrom.setConsName("2352");
+        consFrom.setSecurityLoad(new BigDecimal("2"));
+        consFromList.add(consFrom);
+
+
+        Map<String, Object> consFromMap = EasyPoiUtils.setExportParams("easypoi导出功能(ConsFrom用户表)", "导出sheet2的名称", ConsFrom.class, consFromList);
+        exportParamList.add(consFromMap);
+
+
+        EasyPoiUtils.exportExcel("文件名称.xls",exportParamList,response);
+
+    }
+
 
 
 

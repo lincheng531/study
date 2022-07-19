@@ -5,6 +5,8 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import com.google.common.collect.Maps;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -224,6 +228,127 @@ public class EasyPoiUtils {
         return list;
     }
 
+
+
+    /**
+     * 功能描述：根据接收的Excel文件来导入Excel,并封装成实体类
+     *
+     * @param file       上传的文件
+     * @param sheetNum   导入第几个sheet页
+     * @param headerRows 表头行数
+     * @param pojoClass  Excel实体类
+     * @return
+     * @author lincheng5
+     */
+    public static <T> List<T> importExcelBySheet(MultipartFile file, Integer sheetNum, Integer headerRows, Class<T> pojoClass) {
+        if (file == null) {
+            return null;
+        }
+        ImportParams params = new ImportParams();
+        params.setStartSheetIndex(sheetNum);
+        params.setTitleRows(headerRows);
+
+        List<T> list = null;
+        try {
+            list = ExcelImportUtil.importExcel(file.getInputStream(), pojoClass, params);
+            //list = (List<T>) getNotNullObjList(ExcelImportUtil.importExcel(file.getInputStream(), pojoClass, params));
+        } catch (NoSuchElementException e) {
+            throw new RuntimeException("excel文件不能为空");
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+
+        }
+        return list;
+    }
+
+
+    /**
+     * @Description: 去除集合中的空对象
+     * @author: linCheng
+     * @Date: 2022/7/19 14:51
+     * @param: sourceList
+     * @Return: java.util.List<?>
+     */
+    private static List<?> getNotNullObjList(List<?> sourceList){
+
+        List<?> oldList = new ArrayList<>(sourceList);
+
+        if (CollectionUtils.isNotEmpty(sourceList)){
+            sourceList.forEach(obj->{
+                if (checkObjAllFieldsIsNull(obj)){
+                    oldList.remove(obj);
+                }
+            });
+        }
+
+        return oldList;
+    }
+
+
+
+    /**
+     * @Description: 判断对象中的所有属性是否为空
+     * @author: linCheng
+     * @Date: 2022/7/19 14:51
+     * @param: object
+     * @Return: boolean
+     */
+    private static boolean checkObjAllFieldsIsNull(Object object) {
+        if (null == object) {
+            return true;
+        }
+        try {
+            for (Field f : object.getClass().getDeclaredFields()) {
+                f.setAccessible(true);
+                if (f.get(object) != null && StringUtils.isNotBlank(f.get(object).toString())) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+
+
+
+
+    /**
+     * @Description:
+     * @author: linCheng
+     * @Date: 2022/7/19 15:04
+     * @param: title 标题
+     * @param: sheetName sheet名称
+     * @param: pojoClass  Excel实体类
+     * @param: list 导入的实体集合
+     * @Return: java.util.Map<java.lang.String,java.lang.Object>
+     */
+    public static Map<String, Object> setExportParams(String title, String sheetName, Class<?> pojoClass, List<?> list) {
+        ExportParams params = new ExportParams(title, sheetName, ExcelType.XSSF);
+        Map<String, Object> valueMap = Maps.newHashMap();
+        valueMap.put("title", params);
+        valueMap.put("data", list);
+        valueMap.put("entity", pojoClass);
+        return valueMap;
+    }
+
+
+    /**
+     * @Description: 导出多sheet页
+     * @author: linCheng
+     * @Date: 2022/7/19 15:05
+     * @param: fileName 文件名称
+     * @param: exportParamList 配置数据信息
+     * @param: response
+     * @Return: void
+     */
+    public static void exportExcel(String fileName,List<Map<String, Object>> exportParamList, HttpServletResponse response) {
+        Workbook workbook = ExcelExportUtil.exportExcel(exportParamList, ExcelType.XSSF);
+        if (workbook != null) {
+            downLoadExcel(fileName, response, workbook);
+        }
+    }
 
 }
 
