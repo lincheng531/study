@@ -67,8 +67,15 @@ public class TestStream {
     @Test
     public void testLimit() {
         // 从第三个开始截断，只输出前三个
+
+        // 正序
         List<User> users = userList.stream().sorted(Comparator.comparing(User::getAge)).limit(3).collect(Collectors.toList());
         System.out.println(JSON.toJSONString(users));
+
+        //倒序
+        List<User> users2 = userList.stream().sorted(Comparator.comparing(User::getAge, Comparator.reverseOrder())).limit(3).collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(users2));
+
     }
 
 
