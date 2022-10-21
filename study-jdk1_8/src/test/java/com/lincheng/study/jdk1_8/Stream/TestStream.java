@@ -89,6 +89,9 @@ public class TestStream {
 
     @Test
     public void testNum() {
+
+        //DoubleSummaryStatistics doubleSummaryStatistics = lmaUsrLoadctrlRstEntities.stream().mapToDouble(e -> e.getDAvgLoadCtrl() == null ? 0 : e.getDAvgLoadCtrl().doubleValue()).summaryStatistics();
+
         IntSummaryStatistics num = userList.stream().mapToInt(User::getAge).summaryStatistics();
         System.out.println("总共人数：" + num.getCount());
         System.out.println("平均年龄：" + num.getAverage());
@@ -421,7 +424,7 @@ public class TestStream {
         BigDecimal a = new BigDecimal("0");
         BigDecimal b = new BigDecimal("0.0");
         //前提为a、b均不能为null
-        if (a.compareTo(b) == -1) {
+        if (a.compareTo(b) < 0) {
             System.out.println("a小于b");
         }
 

@@ -19,7 +19,7 @@ public class GeneratorApplication {
     public static void main(String[] args) {
 
         List<String> tables = new ArrayList<>();
-        tables.add("c_test_date");
+        tables.add("test");
         //tables.add("p_question");
         //tables.add("p_answer");
         //tables.add("p_correct");
@@ -46,7 +46,7 @@ public class GeneratorApplication {
                 })
                 .strategyConfig(builder -> {
                     builder.addInclude(tables)//配置要生成的表名，为一个集合
-                            .addTablePrefix("c_")//过滤前缀。可以同时过滤多个，如：("t_", "c_");
+                            //.addTablePrefix("c_")//过滤前缀。可以同时过滤多个，如：("t_", "c_");
                             .serviceBuilder()
                             .formatServiceFileName("I%sService")//service类名，%s适配，根据表名替换
                             .formatServiceImplFileName("%sServiceImpl")//sServiceImpl类名，%s适配，根据表名替换

@@ -44,7 +44,7 @@ public class ExcelController {
 
 
 
-    @RequestMapping(value = "/importCons")
+    @RequestMapping(value = "/importCons5")
     public void importCons(@RequestParam("file") MultipartFile file, @RequestParam("rows")Integer rows ) throws IOException {
         if (null==file){
             System.out.println("null");
@@ -93,7 +93,7 @@ public class ExcelController {
 
 
 
-    @RequestMapping("/export")
+    @RequestMapping("/export4")
     public void export(HttpServletResponse response) {
 
         List<EasyPoiDemoVO> easyPoiDemoVOList = new ArrayList<>();
@@ -131,7 +131,7 @@ public class ExcelController {
 
     }
 
-    @RequestMapping("/export")
+    @RequestMapping("/export3")
     public void exportBySheet(HttpServletResponse response) {
 
         List<Map<String, Object>> exportParamList = new ArrayList<>();
@@ -170,7 +170,7 @@ public class ExcelController {
 
 
 
-    @RequestMapping("/import")
+    @RequestMapping("/import1")
     public void export(@RequestParam("file") MultipartFile file, ProductVO productVO) {
         System.out.println(JSON.toJSONString(productVO));
 
@@ -179,7 +179,7 @@ public class ExcelController {
         System.out.println(JSON.toJSONString(easyPoiDemoVOS));
     }
 
-    @RequestMapping("/templateConsExport")
+    @RequestMapping("/templateConsExport2")
     public String templateConsExport(HttpServletResponse response) {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
