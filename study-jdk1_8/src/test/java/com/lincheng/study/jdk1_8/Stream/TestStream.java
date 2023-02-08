@@ -292,8 +292,8 @@ public class TestStream {
         List<Employee> collect3 = emps.stream().filter(distinctByKey(Employee::getAge)).collect(Collectors.toList());
         System.out.println(JSON.toJSONString(collect3));
 
-        //对象去重
-        List<Employee> collect6 = emps.stream().distinct().collect(Collectors.toList());
+        //对象去重，去空
+        List<Employee> collect6 = emps.stream().filter(Objects::nonNull).distinct().collect(Collectors.toList());
         System.out.println(JSON.toJSONString(collect6));
 
         //数组去重
