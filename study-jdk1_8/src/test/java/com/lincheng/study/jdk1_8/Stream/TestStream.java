@@ -51,7 +51,6 @@ public class TestStream {
         //排序
         List<User> users = userList.stream().sorted(Comparator.comparing(User::getAge)).collect(Collectors.toList());
         System.out.println(JSON.toJSONString(users));
-    public void testSorted(){
         List<User> userAsc = userList.stream().sorted(Comparator.comparing(User::getAge)).collect(Collectors.toList());
         System.out.println(JSON.toJSONString(userAsc));
         List<User> usersDesc = userList.stream().sorted(Comparator.comparing(User::getAge).reversed()).collect(Collectors.toList());
