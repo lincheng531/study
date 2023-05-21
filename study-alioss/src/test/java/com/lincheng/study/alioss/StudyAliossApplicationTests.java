@@ -1,7 +1,7 @@
 package com.lincheng.study.alioss;
 
 import com.alibaba.fastjson.JSON;
-import com.lincheng.study.alioss.Enum.FileTypeEnum;
+import com.lincheng.study.alioss.enums.FileTypeEnum;
 import com.lincheng.study.alioss.entity.OssFileInformation;
 import com.lincheng.study.alioss.repository.OssFileInformationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j

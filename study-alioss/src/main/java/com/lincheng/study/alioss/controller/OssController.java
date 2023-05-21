@@ -1,7 +1,7 @@
 package com.lincheng.study.alioss.controller;
 
 
-import com.lincheng.study.alioss.Enum.FileTypeEnum;
+import com.lincheng.study.alioss.enums.FileTypeEnum;
 import com.lincheng.study.alioss.entity.OssFileInformation;
 import com.lincheng.study.alioss.repository.OssFileInformationRepository;
 import com.lincheng.study.alioss.service.OssFileInformationService;

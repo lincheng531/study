@@ -1,4 +1,4 @@
-package com.lincheng.study.alioss.Enum;
+package com.lincheng.study.alioss.enums;
 
 public enum FileTypeEnum {
 
@@ -33,5 +33,17 @@ public enum FileTypeEnum {
      */
     public String getName() {
         return name;
+    }
+
+
+    public static FileTypeEnum getFileTypeEnum(int key) {
+        FileTypeEnum result = null;
+        for (FileTypeEnum fileTypeEnum : values()) {
+            if (fileTypeEnum.getKey() == key ) {
+                result = fileTypeEnum;
+                break;
+            }
+        }
+        return result;
     }
 }

@@ -1,0 +1,14 @@
+#person:
+#  name: 测试
+#  maps: {k1: v1,k2: v2}
+#  lists:
+#    - list1
+#    - list2
+#  dog:
+#    name: 发财
+
+spring:
+  profiles:
+    active: dev
+#控制台打印自动配置报告
+#debug: true
