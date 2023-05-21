@@ -52,4 +52,16 @@ public class LiteFlowController {
         }
     }
 
+
+    @GetMapping("/liteflow4")
+    public void liteflow4() {
+        try {
+            LiteflowResponse liteflowResponse = flowExecutor.execute2Resp("chain4", "arg");
+            System.out.println(liteflowResponse);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+
 }
