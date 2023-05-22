@@ -3,12 +3,11 @@ package com.lincheng.study.middleware.liteflow;
 import com.yomahub.liteflow.core.NodeComponent;
 import org.springframework.stereotype.Component;
 
-@Component("d")
-public class DCmp extends NodeComponent {
+@Component("e")
+public class ECmp extends NodeComponent {
 
     @Override
     public void process() throws InterruptedException {
-        Thread.sleep(5000);
-        System.out.println("DCmp executed!");
+        System.out.println("ECmp executed!");
     }
 }

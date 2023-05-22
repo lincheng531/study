@@ -21,6 +21,9 @@ public class LiteFlowController {
     private FlowExecutor flowExecutor;
 
     @GetMapping("/test")
+    /*
+    * 普通组件
+    */
     public void liteflow1() {
         try {
             LiteflowResponse liteflowResponse = flowExecutor.execute2Resp("chain1", "arg");
@@ -30,7 +33,9 @@ public class LiteFlowController {
         }
     }
 
-
+    /*
+     * 选择组件
+     */
     @GetMapping("/liteflow2")
     public void liteflow2() {
         try {
@@ -41,7 +46,9 @@ public class LiteFlowController {
         }
     }
 
-
+    /*
+     * 选择组件
+     */
     @GetMapping("/liteflow3")
     public void liteflow3() {
         try {
@@ -52,7 +59,9 @@ public class LiteFlowController {
         }
     }
 
-
+    /*
+     * 条件组件
+     */
     @GetMapping("/liteflow4")
     public void liteflow4() {
         try {
@@ -62,6 +71,116 @@ public class LiteFlowController {
             t.printStackTrace();
         }
     }
+
+
+    /*
+     * 次数循环组件
+     */
+    @GetMapping("/liteflow5")
+    public void liteflow5() {
+        try {
+            LiteflowResponse liteflowResponse = flowExecutor.execute2Resp("chain5", "arg");
+            System.out.println(liteflowResponse);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    /*
+     * 条件循环组件
+     */
+    @GetMapping("/liteflow6")
+    public void liteflow6() {
+        try {
+            LiteflowResponse liteflowResponse = flowExecutor.execute2Resp("chain6", "arg");
+            System.out.println(liteflowResponse);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+
+    /*
+     * 迭代循环组件
+     */
+    @GetMapping("/liteflow7")
+    public void liteflow7() {
+        try {
+            LiteflowResponse liteflowResponse = flowExecutor.execute2Resp("chain7", "arg");
+            System.out.println(liteflowResponse);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+
+    /*
+     * 退出循环组件
+     */
+    @GetMapping("/liteflow8")
+    public void liteflow8() {
+        try {
+            LiteflowResponse liteflowResponse = flowExecutor.execute2Resp("chain8", "arg");
+            System.out.println(liteflowResponse);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+
+    /*==========================================================EL规则的写法========================================================*/
+
+
+
+
+
+    /*
+     * 串行编排
+     */
+    @GetMapping("/liteflow9")
+    public void liteflow9() {
+        try {
+            LiteflowResponse liteflowResponse = flowExecutor.execute2Resp("chain9", "arg");
+            System.out.println(liteflowResponse);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+
+
+    /*
+     * 并行编排
+     */
+    @GetMapping("/liteflow10")
+    public void liteflow10() {
+        try {
+            LiteflowResponse liteflowResponse = flowExecutor.execute2Resp("chain10", "arg");
+            System.out.println(liteflowResponse);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
