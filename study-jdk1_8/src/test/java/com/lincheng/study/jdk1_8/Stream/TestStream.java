@@ -384,6 +384,25 @@ public class TestStream {
 
     }
 
+    @Test
+    public void testAllMatch() {
+        //检查是否匹配所有元素，只有全部符合才返回true
+        List<String> list = Arrays.asList("springboot", "springcloud", "redis", "git", "netty", "java", "html", "docker");
+        // 判断是否所有元素长度大于五
+        boolean result = list.stream().allMatch(obj -> obj.length()>5);
+        System.out.println(result);
+    }
+
+    @Test
+    public void testAnyMatch() {
+        //检查集合中元素是否有任意一个满足条件。只要有一个满足返回true
+        List<String> list = Arrays.asList("springboot", "springcloud", "redis", "git", "netty", "java", "html", "docker");
+        // 判断是否有元素长度大于五
+        boolean result = list.stream().anyMatch(obj -> obj.length()>5);
+        System.out.println(result);
+    }
+
+
 
     @Test
     public void testBigDecimal() {
