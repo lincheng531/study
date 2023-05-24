@@ -45,8 +45,8 @@ public class StudyThreadPool {
 
      */
     public static void main(String[] args) {
-        //testNewFixedThreadPool();
-        testThreadPoolExecutor();
+        testNewFixedThreadPool();
+        //testThreadPoolExecutor();
     }
 
 
@@ -54,13 +54,15 @@ public class StudyThreadPool {
 
         //执行长期任务性能好，创建一个线程池，池有N个固定的线程，有固定线程数的线程
         ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(4);
-
+        List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         try {
-            for (int i = 0 ; i < 10 ; i++){
-                newFixedThreadPool.execute(()->{
-                    System.out.println("当前线程名称：" + Thread.currentThread().getName());
-                });
-            }
+            integers.forEach(integer -> newFixedThreadPool.execute(()-> System.out.println("当前线程名称：" + Thread.currentThread().getName() + "  i:"+ integer)));
+            //for (int i = 0 ; i < 10 ; i++){
+            //    int finalI = i;
+            //    newFixedThreadPool.execute(()->{
+            //        System.out.println("当前线程名称：" + Thread.currentThread().getName() + "  i:"+ finalI);
+            //    });
+            //}
         }catch (Exception e){
             e.printStackTrace();
         }finally {
