@@ -3,6 +3,7 @@ package com.lincheng.study.basejava.thread;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.lincheng.study.common.domain.alioss.vo.OssFileBusinessVO;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
