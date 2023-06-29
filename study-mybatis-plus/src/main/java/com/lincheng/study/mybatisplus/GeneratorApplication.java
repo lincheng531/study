@@ -19,11 +19,12 @@ public class GeneratorApplication {
     public static void main(String[] args) {
 
         List<String> tables = new ArrayList<>();
-        tables.add("bd_clean_body_size_chart");
+        tables.add("test");
+        //tables.add("p_question");
+        //tables.add("p_answer");
+        //tables.add("p_correct");
 
-
-
-        FastAutoGenerator.create("jdbc:mysql://172.16.8.145:3306/nsy_product?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false","root","n5ymy5q1DB123.")
+        FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/study?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai","root","123456")
                 .globalConfig(builder -> {
                     builder.author("linCheng")//作者
                             .outputDir(System.getProperty("user.dir")+"\\study-mybatis-plus\\src\\main\\java")//指定输出目录(写到java目录)
@@ -33,15 +34,15 @@ public class GeneratorApplication {
 
                 })
                 .packageConfig(builder -> {
-                    builder.parent("com.nsy.api")// 设置父包名
-                            .moduleName("product")// 设置父包模块名
-                            .entity("entity.size")
-                            .service("service.size")
-                            .serviceImpl("service.size.impl")
-                            .controller("controller.size")
-                            .mapper("mapper.mysql.size")
-                            //.xml("size")
-                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml,System.getProperty("user.dir")+"\\study-mybatis-plus\\src\\main\\resources\\mapper\\mysql\\size"));
+                    builder.parent("com.lincheng.study")// 设置父包名
+                            .moduleName("mybatisplus")// 设置父包模块名
+                            .entity("entity")
+                            .service("service")
+                            .serviceImpl("service.impl")
+                            .controller("controller")
+                            .mapper("mapper")
+                            .xml("mapper")
+                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml,System.getProperty("user.dir")+"\\study-mybatis-plus\\src\\main\\resources\\mapper"));
                 })
                 .strategyConfig(builder -> {
                     builder.addInclude(tables)//配置要生成的表名，为一个集合
@@ -50,10 +51,9 @@ public class GeneratorApplication {
                             .formatServiceFileName("I%sService")//service类名，%s适配，根据表名替换
                             .formatServiceImplFileName("%sServiceImpl")//sServiceImpl类名，%s适配，根据表名替换
                             .entityBuilder()
-                            .formatFileName("%sEntity")
                             .enableActiveRecord()//
                             .enableLombok()//开启lombok
-                            //.logicDeleteColumnName("STATE")//说明逻辑删除是哪个字段
+                            .logicDeleteColumnName("STATE")//说明逻辑删除是哪个字段
                             .enableTableFieldAnnotation()//属性加上,说明注解
                             .controllerBuilder()
                             .formatFileName("%sController")//sController类名，%s适配，根据表名替换
