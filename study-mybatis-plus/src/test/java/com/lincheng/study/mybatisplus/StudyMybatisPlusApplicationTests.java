@@ -17,12 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StudyMybatisPlusApplication.class)
@@ -191,6 +188,10 @@ public class StudyMybatisPlusApplicationTests {
             });
         });
 
+
+        List<Integer> ids = studyMybatisPlusArList.stream().map(StudyMybatisPlusAr::getId).filter(Objects::nonNull).collect(Collectors.toList());
+        List<StudyMybatisPlusAr> oldAr = studyMybatisPlusArs.stream().filter(studyMybatisPlusAr -> !ids.contains(studyMybatisPlusAr.getId())).collect(Collectors.toList());
+        oldAr.forEach(Model::deleteById);
 
         //删除
         old.forEach(Model::deleteById);
