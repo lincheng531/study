@@ -273,6 +273,13 @@ public class TestStream {
         Map<Integer, List<Employee>> map = emps.stream().collect(Collectors.groupingBy(Employee::getStatus));
         System.out.println(map);
 
+        Map<Integer, String> map1 = emps.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus,
+                        Collectors.mapping(Employee::getName,
+                                Collectors.joining(","))));
+        System.out.println(JSON.toJSONString(map1));
+
+
         // 二级分组
         Map<Integer, Map<String, List<Employee>>> mapMap = emps.stream()
                 .collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((e) -> {
