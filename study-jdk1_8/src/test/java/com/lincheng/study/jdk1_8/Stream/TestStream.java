@@ -2,6 +2,7 @@ package com.lincheng.study.jdk1_8.Stream;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.lincheng.study.common.utils.BeanUtils;
 import com.lincheng.study.jdk1_8.domain.Employee;
 import com.lincheng.study.jdk1_8.domain.User;
 import org.junit.Test;
@@ -273,6 +274,10 @@ public class TestStream {
         Map<Integer, List<Employee>> map = emps.stream().collect(Collectors.groupingBy(Employee::getStatus));
         System.out.println(map);
 
+        Map<String, List<Integer>> collect7 = emps.stream().collect(Collectors.groupingBy(Employee::getName, Collectors.mapping(Employee::getId, Collectors.toList())));
+        System.out.println(collect7);
+
+
         Map<Integer, String> map1 = emps.stream()
                 .collect(Collectors.groupingBy(Employee::getStatus,
                         Collectors.mapping(Employee::getName,
@@ -367,7 +372,9 @@ public class TestStream {
 
 
             //将子集合抽上来形成一个大集合
-            List<Integer> collect = lists.stream().flatMap(item -> item.stream().filter(Objects::nonNull))
+        List<List<Integer>> collect1 = lists.stream().collect(Collectors.toList());
+
+        List<Integer> collect = lists.stream().flatMap(item -> item.stream().filter(Objects::nonNull))
                     .collect(Collectors.toList());
 
             System.out.println(collect);
@@ -404,6 +411,8 @@ public class TestStream {
     }
 
     public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
+
         List<String> list = new ArrayList<String>();
         list.add("A");
         list.add("B");
